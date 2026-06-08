@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>US Museum BD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1C1F26;--surface:#252A34;--sf2:#2E3340;--sf3:#363C4A;
+  --bd:#3A4055;--bd2:#4A5268;--bd3:#626880;
+  --tx:#E8EBF2;--tx2:#8A93A8;--tx3:#55607A;
+  --accent:#E8003D;--accent-dim:rgba(232,0,61,0.11);
+  --g50:#1E3016;--g200:#4A8C1C;--g600:#6DB33F;--g800:#A3D977;
+  --b50:#1A2E44;--b600:#5B9FE8;--b800:#A8CBEF;
+  --a50:#272010;--a600:#C97D1A;--a800:#ECC96A;
+  --r50:#271616;--r600:#E87878;--r800:#F5B8B8;
+  --conn:#3A4055;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);font-size:13px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--bd3)}
+
+/* TOPBAR */
+.topbar{background:var(--surface);border-bottom:1px solid var(--bd);padding:0 20px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.tl{display:flex;align-items:center;gap:10px}
+.logo{width:26px;height:26px;background:var(--accent);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600;flex-shrink:0}
+.tbar-title{font-size:14px;font-weight:500}
+.tbar-sub{font-size:12px;color:var(--tx3)}
+.tab-grp{display:flex;background:var(--sf2);border-radius:6px;padding:3px;gap:2px}
+.tab{border:1px solid transparent;background:none;padding:5px 14px;border-radius:4px;cursor:pointer;font-size:12px;color:var(--tx2);font-family:inherit;transition:all .15s}
+.tab.on{background:var(--surface);color:var(--tx);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.4);border-color:var(--bd2)}
+
+.pane{display:none;flex:1;overflow:hidden;flex-direction:column}
+.pane.on{display:flex}
+
+/* ══ ORG TREE ══ */
+.tree-scroll{flex:1;overflow:auto;padding:32px 40px}
+.vline{width:1.5px;height:22px;background:var(--conn);margin:0 auto}
+.vline-s{width:1.5px;height:16px;background:var(--conn);margin:0 auto}
+.tree-row{display:flex;justify-content:center;gap:14px;width:100%;flex-wrap:wrap}
+.ncol{display:flex;flex-direction:column;align-items:center}
+.caret{font-size:9px;color:var(--tx3);margin-top:5px;display:block}
+
+.n-root{background:var(--accent);color:#fff;border-radius:8px;padding:14px 28px;text-align:center;cursor:pointer;min-width:240px;user-select:none;transition:opacity .15s}
+.n-root:hover{opacity:.88}
+.n-root-title{font-size:14px;font-weight:600;margin-bottom:2px}
+.n-root-sub{font-size:11px;color:rgba(255,255,255,.65);margin-bottom:4px}
+.n-root-gtv{font-size:12px;color:rgba(255,255,255,.8);font-weight:500}
+
+.n-l2{border-radius:6px;padding:11px 16px;text-align:center;cursor:pointer;min-width:155px;user-select:none;transition:box-shadow .15s;border:1.5px solid transparent;height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.n-l2:hover{box-shadow:0 2px 12px rgba(0,0,0,.35)}
+.n-l2.np{background:var(--g50);border-color:var(--g200)}
+.n-l2.gov{background:var(--b50);border-color:#2D5F8A}
+.n-l2.hyb{background:var(--a50);border-color:#7A5218}
+.n-l2.com{background:var(--r50);border-color:#7A2828}
+.n-l2.on.np{border-color:var(--g600)}
+.n-l2.on.gov{border-color:var(--b600)}
+.n-l2.on.hyb{border-color:var(--a600)}
+.n-l2.on.com{border-color:var(--r600)}
+.n-l2-name{font-size:12px;font-weight:500;margin-bottom:2px}
+.np .n-l2-name{color:var(--g800)}.gov .n-l2-name{color:var(--b800)}.hyb .n-l2-name{color:var(--a800)}.com .n-l2-name{color:var(--r800)}
+.n-l2-meta{font-size:10px}
+.np .n-l2-meta{color:var(--g600)}.gov .n-l2-meta{color:var(--b600)}.hyb .n-l2-meta{color:var(--a600)}.com .n-l2-meta{color:var(--r600)}
+
+.n-l3{background:var(--surface);border:1px solid var(--bd);border-left:3px solid var(--g600);border-radius:0 6px 6px 0;padding:8px 12px;text-align:center;cursor:pointer;min-width:140px;max-width:175px;user-select:none;transition:box-shadow .15s;height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.n-l3:hover{box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.n-l3.on{border-color:var(--g600);border-left-color:var(--g600)}
+.n-l3-name{font-size:11px;font-weight:500;color:var(--tx);line-height:1.3;margin-bottom:2px}
+.n-l3-meta{font-size:10px;color:var(--tx3)}
+.n-l3-gtv{font-size:10px;font-weight:500;color:var(--g600);margin-top:2px}
+
+.n-ng{background:var(--sf3);border:1px solid var(--bd2);border-radius:6px;padding:8px 12px;text-align:center;cursor:pointer;min-width:140px;max-width:175px;user-select:none;transition:box-shadow .15s;height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.n-ng:hover{box-shadow:0 2px 8px rgba(0,0,0,.2);border-color:var(--bd3)}
+.n-ng.on{border-color:var(--tx3)}
+.n-ng-name{font-size:11px;font-weight:500;color:var(--tx2);margin-bottom:2px}
+.n-ng-meta{font-size:10px;color:var(--tx3)}
+
+.n-l4{background:var(--surface);border:1px solid var(--bd);border-radius:5px;padding:7px 9px;width:136px;position:relative;cursor:pointer;transition:box-shadow .15s,border-color .15s}
+.n-l4:hover{box-shadow:0 2px 10px rgba(0,0,0,.35);border-color:var(--bd2)}
+.n-l4-name{font-size:10px;font-weight:500;color:var(--tx);line-height:1.3;padding-right:10px;margin-bottom:2px}
+.n-l4-city{font-size:9px;color:var(--tx3);margin-bottom:3px}
+.n-l4-gtv{font-size:11px;font-weight:600;color:var(--tx);font-variant-numeric:tabular-nums}
+.n-l4-gtv.free{color:var(--g600)}
+.n-l4-gtv.unk{color:var(--tx3);font-size:10px;font-weight:400}
+.n-l4-row{display:flex;align-items:center;gap:4px;margin-top:3px;flex-wrap:wrap}
+.n-l4-vnd{font-size:9px;color:var(--tx3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.admtag{font-size:9px;padding:1px 5px;border-radius:3px;border:1px solid;flex-shrink:0;font-weight:500}
+.a-free{border-color:var(--g200);color:var(--g600);background:var(--g50)}
+.a-paid{border-color:#2D5F8A;color:var(--b600);background:var(--b50)}
+.a-sug{border-color:#92400E;color:var(--a600);background:var(--a50)}
+.a-part{border-color:#7F1D1D;color:var(--r600);background:var(--r50)}
+.vdot{width:5px;height:5px;border-radius:50%;position:absolute;top:8px;right:8px}
+.vh{background:#6DB33F}.vm{background:#D97706}.vu{background:var(--bd3)}
+.own-lbl{font-size:9px;color:var(--tx3);text-align:center;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+#tree-root{display:flex;flex-direction:column;align-items:center;width:max-content;min-width:100%}
+.l2-row{display:flex;align-items:flex-start;gap:24px;flex-wrap:nowrap}
+.l3-row{display:flex;justify-content:center;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.l4-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start;max-width:456px}
+
+/* ══ CARDS PANE ══ */
+.cards-layout{display:flex;flex:1;overflow:hidden}
+
+/* LEFT LIST */
+.museum-list{width:230px;flex-shrink:0;border-right:1px solid var(--bd);overflow-y:auto;background:var(--surface)}
+.list-header{padding:12px 14px 8px;border-bottom:1px solid var(--bd);font-size:10px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px}
+.list-item{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;cursor:pointer;border-bottom:1px solid var(--bd);transition:background .1s;user-select:none}
+.list-item:hover{background:var(--sf2)}
+.list-item.selected{background:var(--accent-dim);box-shadow:inset 2px 0 0 var(--accent)}
+.list-item-name{font-size:11px;color:var(--tx);line-height:1.3;flex:1;margin-right:6px}
+.list-item-gtv{font-size:10px;color:var(--tx3);white-space:nowrap;flex-shrink:0;font-variant-numeric:tabular-nums}
+.list-item-gtv.free{color:var(--g600)}
+.list-item.selected .list-item-name{font-weight:500}
+.list-sel-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-left:5px;opacity:0}
+.list-item.selected .list-sel-dot{opacity:1}
+
+/* RIGHT DETAIL */
+.card-detail{flex:1;overflow-y:auto;padding:20px;background:var(--bg)}
+.card-detail-empty{display:flex;align-items:center;justify-content:center;height:100%;color:var(--tx3);font-size:13px;flex-direction:column;gap:8px}
+.card-detail-empty-icon{font-size:28px}
+
+/* detail card */
+.detail-card{background:var(--surface);border:1px solid var(--bd);border-radius:6px;padding:20px;max-width:680px}
+.dc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+.dc-name{font-size:17px;font-weight:600;color:var(--tx);line-height:1.2;flex:1}
+.dc-badges{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}
+.ob{font-size:10px;font-weight:600;padding:3px 8px;border-radius:3px;white-space:nowrap;text-transform:uppercase;letter-spacing:.3px}
+.ob-np{background:rgba(107,179,63,.15);color:var(--g800)}
+.ob-gov{background:rgba(59,130,246,.15);color:var(--b800)}
+.ob-hyb{background:rgba(217,119,6,.15);color:var(--a800)}
+.ob-com{background:rgba(248,113,113,.15);color:var(--r800)}
+.dc-city{font-size:12px;color:var(--tx3);margin-bottom:12px}
+.dc-entity{font-size:11px;color:var(--tx2);background:var(--sf2);padding:3px 8px;border-radius:3px;border:1px solid var(--bd);display:inline-block;margin-bottom:12px}
+.dc-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.metric{background:var(--sf2);border-radius:4px;padding:10px 12px;border:1px solid var(--bd)}
+.metric-l{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;font-weight:600}
+.metric-v{font-size:15px;font-weight:600;color:var(--tx);font-variant-numeric:tabular-nums}
+.mv-free{color:var(--g600)}
+.mv-unk{color:var(--tx3);font-weight:400;font-size:12px}
+.dc-section{margin-bottom:12px}
+.dc-section-title{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:6px}
+.dc-row{display:flex;gap:8px;flex-wrap:wrap}
+.dc-kv{display:flex;flex-direction:column;gap:2px;min-width:140px}
+.dc-key{font-size:10px;color:var(--tx3)}
+.dc-val{font-size:12px;color:var(--tx)}
+.dc-val.unknown{color:var(--tx3);font-style:italic}
+.vdot-inline{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle}
+.dc-notes{font-size:11px;color:var(--tx2);background:var(--sf2);border-radius:4px;border:1px solid var(--bd);padding:9px 11px;line-height:1.5}
+
+/* ══ TABLE PANE ══ */
+.tbar{background:var(--surface);border-bottom:1px solid var(--bd);padding:8px 20px;display:flex;gap:7px;align-items:center;flex-shrink:0;flex-wrap:wrap}
+.tbar input,.tbar select{border:1px solid var(--bd2);border-radius:5px;padding:5px 9px;font-size:12px;background:var(--sf2);color:var(--tx);outline:none;font-family:inherit}
+.tbar input{width:170px}
+.tbar input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(232,0,61,.15)}
+.tbar select:hover{border-color:var(--bd3)}
+.flabel{font-size:10px;color:var(--tx3);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.clr-btn{border:1px solid var(--bd2);background:none;padding:5px 9px;border-radius:5px;cursor:pointer;font-size:11px;color:var(--tx3);font-family:inherit}
+.clr-btn:hover{background:var(--sf2);color:var(--tx);border-color:var(--bd3)}
+.tcnt{font-size:11px;color:var(--tx3)}
+.tbl-scroll{flex:1;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{background:var(--sf2);padding:8px 12px;text-align:left;font-weight:600;color:var(--tx3);font-size:10px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd2);white-space:nowrap;cursor:pointer;user-select:none;position:sticky;top:0;z-index:1}
+thead th:hover{color:var(--tx2)}
+thead th.sorted{color:var(--tx);border-bottom-color:var(--accent)}
+tbody tr{border-bottom:1px solid var(--bd)}
+tbody tr:nth-child(even){background:var(--sf2)}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--sf3) !important}
+td{padding:8px 12px;vertical-align:middle}
+.tc-n{font-weight:500;max-width:210px}
+.tc-c{color:var(--tx2);white-space:nowrap}
+.tc-g{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tc-v{color:var(--tx2);font-variant-numeric:tabular-nums}
+.tb{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600;text-transform:uppercase;letter-spacing:.2px}
+.empty{text-align:center;padding:48px;color:var(--tx3)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tl">
+    <div class="logo">US</div>
+    <span class="tbar-title">Museum BD — Opportunity Map</span>
+    <span class="tbar-sub">United States · 83 museums</span>
+  </div>
+  <div class="tab-grp">
+    <button class="tab on" id="tab-tree" onclick="switchTab('tree',this)">Museum tree</button>
+    <button class="tab" id="tab-cards" onclick="switchTab('cards',this)">Cards</button>
+    <button class="tab" id="tab-table" onclick="switchTab('table',this)">Table</button>
+  </div>
+</div>
+
+<!-- ORG TREE -->
+<div class="pane on" id="pane-tree">
+  <div class="tree-scroll"><div id="tree-root"></div></div>
+</div>
+
+<!-- CARDS -->
+<div class="pane" id="pane-cards">
+  <div class="cards-layout">
+    <div class="museum-list">
+      <div class="list-header">Museums · sorted by GTV</div>
+      <div id="museum-list-items"></div>
+    </div>
+    <div class="card-detail" id="card-detail">
+      <div class="card-detail-empty">
+        <div class="card-detail-empty-icon">←</div>
+        <div>Select one or more museums from the list</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="pane" id="pane-table">
+  <div class="tbar">
+    <span class="flabel">Filter</span>
+    <input type="text" id="tfs" placeholder="Search…" oninput="applyT()">
+    <select id="tfo" onchange="applyT()">
+      <option value="">All ownership</option>
+      <option>Private Nonprofit</option>
+      <option>Public / Government</option>
+      <option>Public-Private Hybrid</option>
+      <option>Commercial / For-Profit</option>
+    </select>
+    <select id="tfa" onchange="applyT()">
+      <option value="">All admission</option>
+      <option>Paid GA</option>
+      <option>Free GA</option>
+      <option value="Suggested Admission">Sugg. admission</option>
+      <option>Partial Paid GA</option>
+    </select>
+    <select id="tfv" onchange="applyT()">
+      <option value="">All vendors</option>
+      <option value="Tessitura">Tessitura</option>
+      <option value="Ticketure">Ticketure</option>
+      <option value="Gateway">Gateway (Galaxy)</option>
+      <option value="ACME">ACME Ticketing</option>
+      <option value="Blackbaud">Blackbaud Altru</option>
+      <option value="NOT FOUND">Vendor unknown</option>
+    </select>
+    <button class="clr-btn" onclick="clearT()">Clear</button>
+    <span class="tcnt" id="tcnt">83 museums</span>
+    <a style="font-size:12px;font-weight:600;color:#fff;text-decoration:none;padding:6px 14px;border-radius:4px;background:var(--accent);white-space:nowrap" href="https://docs.google.com/spreadsheets/d/1rYD2n1e366s3EVMw8VJPH7l2WL-QCU4WHnJBMTbeuVQ/edit?gid=1281920743#gid=1281920743" target="_blank">Open mapping spreadsheet ↗</a>
+  </div>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr>
+        <th class="sorted" onclick="tSrt('gtv')">Est. GTV <span id="tsi-gtv">↓</span></th>
+        <th onclick="tSrt('name')">Museum <span id="tsi-name">↕</span></th>
+        <th onclick="tSrt('visitors')">Visitors <span id="tsi-visitors">↕</span></th>
+        <th>City</th>
+        <th>Museum type</th>
+        <th>Ownership</th>
+        <th>Group / entity</th>
+        <th>Admission</th>
+        <th>Average ticket price</th>
+        <th>Ticketing vendor</th>
+        <th>Confidence</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+let D=[{"name":"Metropolitan Museum of Art","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"New York","visitors":5984091,"visitor_year":"2025","price":30.0,"gtv":179522730.0,"admission_model":"Suggested Admission","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"Art Newspaper 2025","price_source":"Official site","notes":"Suggested admission; pay-what-you-wish for NY residents"},{"name":"American Museum of Natural History","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Natural History","city":"New York","visitors":3000000,"visitor_year":"","price":28.0,"gtv":84000000.0,"admission_model":"Suggested Admission","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":"Suggested admission model"},{"name":"MoMA \u2014 Museum of Modern Art","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art (Modern)","city":"New York","visitors":2763720,"visitor_year":"2025","price":30.0,"gtv":82911600.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Art Newspaper 2025","price_source":"Official site","notes":""},{"name":"Field Museum","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Natural History","city":"Chicago","visitors":1500000,"visitor_year":"","price":30.0,"gtv":45000000.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"California Academy of Sciences","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Science / Natural History","city":"San Francisco","visitors":1000000,"visitor_year":"","price":40.0,"gtv":40000000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"Art Institute of Chicago","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Chicago","visitors":1503406,"visitor_year":"2025","price":26.0,"gtv":39088556.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"Art Newspaper 2025","price_source":"Official site","notes":""},{"name":"Children's Museum of Indianapolis","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Children's","city":"Indianapolis","visitors":1200000,"visitor_year":"","price":32.0,"gtv":38400000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"TEA/AECOM; largest children's museum in world","price_source":"Official site","notes":"Largest children's museum globally by floor space"},{"name":"Museum of Science, Boston","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Science","city":"Boston","visitors":1200000,"visitor_year":"","price":30.0,"gtv":36000000.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"Museum of Science and Industry Chicago (Griffin MSI)","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Science","city":"Chicago","visitors":1500000,"visitor_year":"","price":23.0,"gtv":34500000.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"Denver Museum of Nature & Science","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Natural History / Science","city":"Denver","visitors":1400000,"visitor_year":"","price":22.0,"gtv":30800000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"9/11 Memorial & Museum","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"History / Memorial","city":"New York","visitors":900000,"visitor_year":"","price":33.0,"gtv":29700000.0,"admission_model":"Paid GA","ticketing_system":"Gateway Ticketing Systems (Galaxy)","vendor_confidence":"High","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"Museum of Fine Arts, Boston","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Boston","visitors":1055981,"visitor_year":"2025","price":27.0,"gtv":28511487.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Art Newspaper 2025","price_source":"Official site","notes":""},{"name":"Whitney Museum of American Art","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"New York","visitors":885360,"visitor_year":"2025","price":30.0,"gtv":26560800.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Art Newspaper 2025","price_source":"Official site","notes":""},{"name":"Meow Wolf (Santa Fe)","ownership":"Commercial / For-Profit","controlling_entity":"","museum_type":"Immersive / Experience","city":"Santa Fe","visitors":700000,"visitor_year":"","price":36.0,"gtv":25200000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":"~4-5 US locations; for-profit immersive art"},{"name":"Liberty Science Center","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Science","city":"Jersey City","visitors":750000,"visitor_year":"","price":31.0,"gtv":23250000.0,"admission_model":"Paid GA","ticketing_system":"Blackbaud Altru","vendor_confidence":"High","visitor_source":"Official site","price_source":"Official site","notes":"Checkout URL suggests Tessitura (medium confidence)"},{"name":"Guggenheim Museum New York","ownership":"Private Nonprofit","controlling_entity":"Solomon R. Guggenheim Foundation","museum_type":"Art (Modern)","city":"New York","visitors":700000,"visitor_year":"","price":30.0,"gtv":21000000.0,"admission_model":"Paid GA","ticketing_system":"Ticketure","vendor_confidence":"High","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"Philadelphia Museum of Art","ownership":"Public-Private Hybrid","controlling_entity":"","museum_type":"Art","city":"Philadelphia","visitors":800000,"visitor_year":"","price":25.0,"gtv":20000000.0,"admission_model":"Paid GA","ticketing_system":"eTAM","vendor_confidence":"High","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"Carnegie Science Center","ownership":"Private Nonprofit","controlling_entity":"Carnegie Museums of Pittsburgh","museum_type":"Science","city":"Pittsburgh","visitors":700000,"visitor_year":"","price":25.0,"gtv":17500000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Carnegie Museums site","price_source":"WhichMuseum","notes":"Shared governance; ticketing vendor NOT FOUND"},{"name":"MoPOP","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Pop Culture / History","city":"Seattle","visitors":577721,"visitor_year":"2023","price":30.0,"gtv":17331630.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Official press release 2023","price_source":"NOT FOUND","notes":"Adult price estimate ~$30; vendor NOT FOUND"},{"name":"International Spy Museum","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"History / Specialty","city":"Washington","visitors":600000,"visitor_year":"","price":26.95,"gtv":16170000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Wikipedia infobox","price_source":"Official site","notes":"Plan-ahead pricing model; vendor NOT FOUND"},{"name":"Denver Art Museum","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Denver","visitors":700000,"visitor_year":"","price":22.0,"gtv":15400000.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"Chicago Children's Museum","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Children's","city":"Chicago","visitors":650000,"visitor_year":"","price":23.0,"gtv":14950000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Official site","price_source":"Official site","notes":"IL resident $21 / non-resident $25; $23 midpoint used"},{"name":"de Young Museum","ownership":"Public-Private Hybrid","controlling_entity":"Fine Arts Museums of San Francisco","museum_type":"Art","city":"San Francisco","visitors":840573,"visitor_year":"2025","price":15.0,"gtv":12608595.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Art Newspaper 2025","price_source":"Official site","notes":"Part of FAMSF group with Legion of Honor"},{"name":"Natural History Museum of Los Angeles County (NHM)","ownership":"Public-Private Hybrid","controlling_entity":"Natural History Museums of Los Angeles County","museum_type":"Natural History","city":"Los Angeles","visitors":700000,"visitor_year":"","price":18.0,"gtv":12600000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"High Museum of Art","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Atlanta","visitors":509000,"visitor_year":"2010","price":23.5,"gtv":11961500.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"Art Newspaper 2010","price_source":"WhichMuseum","notes":"Tessitura mentioned in case studies for membership but not GA ticketing confirmed"},{"name":"OMSI","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Science","city":"Portland","visitors":500000,"visitor_year":"","price":22.5,"gtv":11250000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Official history page","price_source":"Official site","notes":"Attendance figure is minimum; actual higher"},{"name":"Detroit Institute of Arts","ownership":"Public-Private Hybrid","controlling_entity":"","museum_type":"Art","city":"Detroit","visitors":677500,"visitor_year":"2015","price":14.0,"gtv":9485000.0,"admission_model":"Partial Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"2015 count","price_source":"Official site","notes":"County residents free; out-of-county $14; GTV realized lower"},{"name":"Children's Museum of Denver","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Children's","city":"Denver","visitors":450000,"visitor_year":"","price":19.75,"gtv":8887500.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Official site","price_source":"Official site","notes":""},{"name":"Phoenix Art Museum","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Phoenix","visitors":300000,"visitor_year":"","price":28.0,"gtv":8400000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Official site","price_source":"WhichMuseum","notes":""},{"name":"Museum of Contemporary Art Chicago (MCA)","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art (Contemporary)","city":"Chicago","visitors":371000,"visitor_year":"2017","price":22.0,"gtv":8162000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Record attendance article 2017","price_source":"Official pricing","notes":"Chicago resident price $19; non-resident $22 used"},{"name":"Walker Art Center","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art (Contemporary)","city":"Minneapolis","visitors":400000,"visitor_year":"","price":20.0,"gtv":8000000.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"TEA/AECOM estimate","price_source":"Official site","notes":""},{"name":"Minnesota Children's Museum","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Children's","city":"St. Paul","visitors":400000,"visitor_year":"FY2023-24","price":19.95,"gtv":7980000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"FY2023-24 annual report","price_source":"Official site","notes":""},{"name":"Carnegie Museum of Natural History","ownership":"Private Nonprofit","controlling_entity":"Carnegie Museums of Pittsburgh","museum_type":"Natural History","city":"Pittsburgh","visitors":300000,"visitor_year":"","price":25.0,"gtv":7500000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Wikipedia infobox","price_source":"Carnegie site / WhichMuseum","notes":"Ticketing vendor NOT FOUND"},{"name":"New Orleans Museum of Art","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"New Orleans","visitors":372064,"visitor_year":"2019","price":20.0,"gtv":7441280.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"NOMA by the Numbers 2019","price_source":"OTA listings","notes":""},{"name":"National Building Museum","ownership":"Public-Private Hybrid","controlling_entity":"","museum_type":"Architecture","city":"Washington","visitors":500000,"visitor_year":"","price":10.0,"gtv":5000000.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"Internal/partner materials","price_source":"Official site","notes":"Vendor NOT FOUND"},{"name":"DISCOVERY Children's Museum Las Vegas","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Children's","city":"Las Vegas","visitors":235419,"visitor_year":"FY2025","price":20.0,"gtv":4708380.0,"admission_model":"Paid GA","ticketing_system":"Paciolan eVenue (public); Tessitura (CRM)","vendor_confidence":"High","visitor_source":"FY2025 annual report","price_source":"Official site","notes":"Current vendor: eTAM (explicitly disclosed on official site)"},{"name":"Cooper Hewitt Smithsonian Design Museum","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Design / Decorative Arts","city":"New York","visitors":250000,"visitor_year":"2023","price":18.0,"gtv":4500000.0,"admission_model":"Paid GA","ticketing_system":"Custom in-house (LANSA-based)","vendor_confidence":"High","visitor_source":"Smithsonian Newsdesk","price_source":"Official site","notes":"One of few Smithsonian sites with paid admission"},{"name":"National Museum of African American Music (NMAAM)","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"History / Culture","city":"Nashville","visitors":125000,"visitor_year":"","price":33.33,"gtv":4166250.0,"admission_model":"Paid GA","ticketing_system":"Gateway Ticketing Systems (Galaxy)","vendor_confidence":"High","visitor_source":"Strategic plan (250k target)","price_source":"WhichMuseum / OTA","notes":"Current visitors ~125k; strategic target 250k"},{"name":"Andy Warhol Museum","ownership":"Private Nonprofit","controlling_entity":"Carnegie Museums of Pittsburgh","museum_type":"Art / Specialty","city":"Pittsburgh","visitors":106396,"visitor_year":"2010","price":25.0,"gtv":2659000.0,"admission_model":"Paid GA","ticketing_system":"ACME Ticketing","vendor_confidence":"High","visitor_source":"Wikipedia infobox (2010)","price_source":"Official site","notes":"Visitor figure dated; GTV indicative only"},{"name":"Huntington Library, Art Museum and Botanical Gardens","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art / Library / Botanical Garden","city":"San Marino","visitors":1100000,"visitor_year":"2025","price":29.0,"gtv":31900000.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"Medium","visitor_source":"ChatGPT Deep Research 2025","price_source":"Official site","notes":"Weekday adult $29; peak days $34. Tessitura Medium confidence via job postings \u2014 not confirmed via checkout URL."},{"name":"Brooklyn Museum","ownership":"Public-Private Hybrid","controlling_entity":"","museum_type":"Art","city":"Brooklyn","visitors":600000,"visitor_year":"2024","price":20.0,"gtv":12000000.0,"admission_model":"Suggested Admission","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"Perplexity Deep Research 2025","price_source":"Official site","notes":"Suggested admission $20; pay-what-you-wish. Tessitura confirmed via Tessitura case study."},{"name":"Frick Collection","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"New York","visitors":300000,"visitor_year":"","price":30.0,"gtv":9000000.0,"admission_model":"Paid GA","ticketing_system":"ACME Ticketing","vendor_confidence":"Medium","visitor_source":"NOT FOUND \u2014 pre-renovation figures only","price_source":"Official site","notes":"Annual visitors NOT FOUND \u2014 only pre-renovation figures available (up to ~300k). ACME Ticketing confirmed via checkout flow (ChatGPT)."},{"name":"Henry Ford Museum of American Innovation","ownership":"Private Nonprofit","controlling_entity":"The Henry Ford","museum_type":"History / Innovation / Transportation","city":"Dearborn","visitors":1700000,"visitor_year":"2025","price":34.0,"gtv":57800000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"ChatGPT / Perplexity Deep Research 2025","price_source":"Official site","notes":"Visitor count is campus-wide (Henry Ford Museum + Greenfield Village + Ford Rouge Factory Tour) \u2014 museum-only figure NOT FOUND. Controlling entity The Henry Ford covers 4 venues."},{"name":"Saint Louis Science Center","ownership":"Public-Private Hybrid","controlling_entity":"","museum_type":"Science","city":"St. Louis","visitors":1200000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Gateway Ticketing Systems (Galaxy)","vendor_confidence":"High"},{"name":"National Museum of the U.S. Air Force","ownership":"Public / Government","controlling_entity":"","museum_type":"Aviation / Military","city":"Dayton","visitors":1000000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"Medium"},{"name":"Saint Louis Art Museum","ownership":"Public-Private Hybrid","controlling_entity":"","museum_type":"Art","city":"St. Louis","visitors":500000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"Nelson-Atkins Museum of Art","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Kansas City","visitors":500000,"visitor_year":"FY2023-24","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"High"},{"name":"National Air and Space Museum","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Aviation / Science","city":"Washington","visitors":2700000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Ticketure","vendor_confidence":"High"},{"name":"National Museum of Natural History","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Natural History","city":"Washington","visitors":4200000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"National Museum of American History","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"History","city":"Washington","visitors":3000000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"National Museum of African American History & Culture","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"History / Culture","city":"Washington","visitors":1500000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"Smithsonian American Art Museum","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Art","city":"Washington","visitors":800000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Ticketure","vendor_confidence":"High"},{"name":"National Portrait Gallery","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Art","city":"Washington","visitors":800000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"Hirshhorn Museum and Sculpture Garden","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Art (Modern/Contemporary)","city":"Washington","visitors":600000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"National Museum of the American Indian (DC)","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"History / Culture","city":"Washington","visitors":700000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"National Museum of the American Indian (NY)","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"History / Culture","city":"New York","visitors":300000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"High"},{"name":"Freer Gallery of Art","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Art (Asian)","city":"Washington","visitors":300000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"High"},{"name":"Arthur M. Sackler Gallery","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Art (Asian)","city":"Washington","visitors":300000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Etix","vendor_confidence":"High"},{"name":"National Museum of African Art","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Art (African)","city":"Washington","visitors":200000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"Medium"},{"name":"Renwick Gallery","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Art / Craft","city":"Washington","visitors":400000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"High"},{"name":"Udvar-Hazy Center (Air and Space annex)","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"Aviation / Science","city":"Chantilly","visitors":1200000,"visitor_year":"2023","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Ticketure","vendor_confidence":"High"},{"name":"National Gallery of Art","ownership":"Public / Government","controlling_entity":"","museum_type":"Art","city":"Washington","visitors":2847587,"visitor_year":"2025","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"J. Paul Getty Museum (Getty Center)","ownership":"Private Nonprofit","controlling_entity":"J. Paul Getty Trust","museum_type":"Art","city":"Los Angeles","visitors":1323616,"visitor_year":"2025","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"High"},{"name":"US Holocaust Memorial Museum","ownership":"Public / Government","controlling_entity":"","museum_type":"History / Memorial","city":"Washington","visitors":600000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"High"},{"name":"Crystal Bridges Museum of American Art","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Bentonville","visitors":802382,"visitor_year":"2025","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Hive (custom in-house)","vendor_confidence":"High"},{"name":"Cleveland Museum of Art","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Cleveland","visitors":800822,"visitor_year":"2025","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"High"},{"name":"Minneapolis Institute of Art (Mia)","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Minneapolis","visitors":700000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Custom in-house (Hive)","vendor_confidence":"High"},{"name":"Exploratorium","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Science","city":"San Francisco","visitors":572509,"visitor_year":"2023","price":35.0,"gtv":20037815.0,"admission_model":"Paid GA","ticketing_system":"Disputed: Accesso vs Ticketure","vendor_confidence":"Medium","visitor_source":"Official 2023 Impact Report","price_source":"NOT FOUND","notes":"Adult price NOT FOUND; GTV not calculable"},{"name":"National Naval Aviation Museum","ownership":"Public / Government","controlling_entity":"","museum_type":"Aviation / Military","city":"Pensacola","visitors":600000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"Medium"},{"name":"Colonial Williamsburg","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Living History","city":"Williamsburg","visitors":550000,"visitor_year":"","price":37.5,"gtv":20625000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"\u2014","price_source":"Official ticketing page","notes":"Visitor count NOT FOUND; large living-history complex"},{"name":"Seattle Art Museum (SAM)","ownership":"Private Nonprofit","controlling_entity":"Seattle Art Museum","museum_type":"Art","city":"Seattle","visitors":750000,"visitor_year":"","price":25.0,"gtv":18750000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"NOT FOUND","price_source":"NOT FOUND","notes":"Visitor count NOT FOUND; ~$25 adult estimate"},{"name":"Seattle Asian Art Museum","ownership":"Private Nonprofit","controlling_entity":"Seattle Art Museum","museum_type":"Art","city":"Seattle","visitors":75000,"visitor_year":"","price":16.0,"gtv":1200000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"Virginia Museum of Fine Arts","ownership":"Public / Government","controlling_entity":"","museum_type":"Art","city":"Richmond","visitors":500000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"Dallas Museum of Art","ownership":"Public-Private Hybrid","controlling_entity":"","museum_type":"Art","city":"Dallas","visitors":670000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"Museum of Fine Arts Houston (MFAH)","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art","city":"Houston","visitors":950000,"visitor_year":"","price":20.0,"gtv":16718500.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"Art Newspaper 2025","price_source":"NOT FOUND","notes":"Tessitura confirmed via Urban Insight case study"},{"name":"LACMA \u2014 Los Angeles County Museum of Art","ownership":"Public-Private Hybrid","controlling_entity":"","museum_type":"Art","city":"Los Angeles","visitors":1250000,"visitor_year":"","price":28.0,"gtv":22043643.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"Art Newspaper 2025","price_source":"NOT FOUND","notes":"Tessitura + custom AWS front-end confirmed"},{"name":"Carnegie Museum of Art","ownership":"Private Nonprofit","controlling_entity":"Carnegie Museums of Pittsburgh","museum_type":"Art","city":"Pittsburgh","visitors":200000,"visitor_year":"","price":25.0,"gtv":50000000.0,"admission_model":"Paid GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","visitor_source":"NOT FOUND","price_source":"Carnegie site","notes":"Ticketing vendor NOT FOUND"},{"name":"National Museum of American Indian (NY) \u2014 George Gustav Heye","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"History / Culture","city":"New York","visitors":200000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014"},{"name":"Anacostia Community Museum","ownership":"Public / Government","controlling_entity":"Smithsonian Institution","museum_type":"History / Community","city":"Washington","visitors":15000,"visitor_year":"","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"High"},{"name":"Legion of Honor","ownership":"Public-Private Hybrid","controlling_entity":"Fine Arts Museums of San Francisco","museum_type":"Art","city":"San Francisco","visitors":360000,"visitor_year":"","price":15.0,"gtv":5400000.0,"admission_model":"Paid GA","ticketing_system":"Tessitura","vendor_confidence":"High","visitor_source":"NOT FOUND","price_source":"Official site","notes":"Shared procurement with de Young under FAMSF"},{"name":"California Science Center","ownership":"Public / Government","controlling_entity":"California Natural Resources Agency","museum_type":"Science","city":"Los Angeles","visitors":1700000,"visitor_year":"2024","price":0,"gtv":0,"admission_model":"Free GA","ticketing_system":"Tessitura","vendor_confidence":"Medium"},{"name":"San Francisco Museum of Modern Art  (SFMOMA)","ownership":"Private Nonprofit","controlling_entity":"","museum_type":"Art (Modern)","country":"United States","city":"San Francisco","detailed_ownership":"Nonprofit","visitors":600000,"visitor_year":"","price":30.0,"gtv":18000000.0,"admission_model":"Paid GA","visitor_source":"Budget planning docs (post-COVID)","price_source":"NOT FOUND","ticketing_system":"NOT FOUND","vendor_confidence":"\u2014","notes":"Average ticket price NOT FOUND"}];
+
+const CITY_STATE = {
+  'Washington':'DC','Chantilly':'VA','New York':'NY','Brooklyn':'NY','Chicago':'IL',
+  'Boston':'MA','San Francisco':'CA','San Marino':'CA','Los Angeles':'CA','Seattle':'WA',
+  'Denver':'CO','Atlanta':'GA','Houston':'TX','Philadelphia':'PA','Pittsburgh':'PA',
+  'Minneapolis':'MN','St. Paul':'MN','Detroit':'MI','Cleveland':'OH','Dallas':'TX',
+  'Kansas City':'MO','Indianapolis':'IN','Nashville':'TN','New Orleans':'LA','Phoenix':'AZ',
+  'Portland':'OR','Richmond':'VA','St. Louis':'MO','Santa Fe':'NM','Las Vegas':'NV',
+  'Salem':'MA','Bentonville':'AR','Dearborn':'MI','Dayton':'OH','Pensacola':'FL',
+  'Williamsburg':'VA','Jersey City':'NJ'
+};
+
+const F={
+  gtv(v,a){
+    if(a==='Free GA'||v===0)return{s:'Free GA',c:'free'};
+    if(v===null||v===undefined)return{s:'Unknown',c:'unk'};
+    if(v>=1e8)return{s:'$'+(v/1e6).toFixed(0)+'M',c:''};
+    if(v>=1e6)return{s:'$'+(v/1e6).toFixed(1)+'M',c:''};
+    return{s:'$'+v.toLocaleString(),c:''};
+  },
+  vis(v){if(!v)return'—';if(v>=1e6)return(v/1e6).toFixed(1)+'M';if(v>=1e3)return(v/1e3).toFixed(0)+'k';return''+v},
+  tgtv(arr){const t=arr.reduce((s,m)=>s+(m.gtv&&m.gtv>0?m.gtv:0),0);if(!t)return'';return t>=1e9?'$'+(t/1e9).toFixed(1)+'B GTV':'$'+Math.round(t/1e6)+'M GTV'},
+  vd(c,s){if(!s||s==='NOT FOUND'||s==='—')return'vu';return c==='High'?'vh':c==='Medium'?'vm':'vu'},
+  vn(s){if(!s||s==='NOT FOUND'||s==='—')return'Vendor unknown';return s.length>24?s.substring(0,22)+'…':s},
+  ac(a){return{'Free GA':'a-free','Paid GA':'a-paid','Suggested Admission':'a-sug','Partial Paid GA':'a-part'}[a]||'a-paid'},
+  al(a){return{'Free GA':'Free','Paid GA':'Paid','Suggested Admission':'Sugg. admission','Partial Paid GA':'Partial'}[a]||a||'—'},
+  oc(o){return{'Private Nonprofit':'ob-np','Public / Government':'ob-gov','Public-Private Hybrid':'ob-hyb','Commercial / For-Profit':'ob-com'}[o]||'ob-np'},
+  os(o){return{'Private Nonprofit':'Nonprofit','Public / Government':'Government','Public-Private Hybrid':'Hybrid','Commercial / For-Profit':'For-Profit'}[o]||o},
+  l2c(o){return{'Private Nonprofit':'np','Public / Government':'gov','Public-Private Hybrid':'hyb','Commercial / For-Profit':'com'}[o]||'np'},
+  price(p){if(p===null||p===undefined)return'—';if(p===0)return'Free';return'$'+p.toFixed(2)},
+  state(city){return CITY_STATE[city]||'—'}
+};
+
+/* ══ TREE ══ */
+const ORDER=['Private Nonprofit','Public / Government','Public-Private Hybrid','Commercial / For-Profit'];
+function mkTree(){
+  const t={};
+  D.forEach(m=>{const o=m.ownership||'Unknown';if(!t[o])t[o]={ms:[],ents:{}};t[o].ms.push(m);if(m.controlling_entity){if(!t[o].ents[m.controlling_entity])t[o].ents[m.controlling_entity]=[];t[o].ents[m.controlling_entity].push(m);}});
+  return ORDER.filter(o=>t[o]).map(o=>({o,ms:t[o].ms.sort((a,b)=>(b.gtv||0)-(a.gtv||0)),ents:Object.entries(t[o].ents).map(([n,ms])=>({n,ms:ms.sort((a,b)=>(b.gtv||0)-(a.gtv||0))})).sort((a,b)=>b.ms.length-a.ms.length)}));
+}
+const TREE=mkTree();
+const openL2=new Set(),openL3=new Set();
+function togL2(o){openL2.has(o)?openL2.delete(o):openL2.add(o);rTree()}
+function togL3(k){openL3.has(k)?openL3.delete(k):openL3.add(k);rTree()}
+
+function rTree(){
+  const agv=F.tgtv(D);
+  let h=`<div style="display:flex;justify-content:center;margin-bottom:0">
+    <div class="ncol"><div class="n-root">
+      <div class="n-root-title">US museum longlist</div>
+      <div class="n-root-sub">${D.length} museums · United States</div>
+      ${agv?`<div class="n-root-gtv">${agv} total paid GTV</div>`:''}
+    </div><div class="vline"></div></div></div>`;
+
+  h+=`<div class="l2-row">`;
+  TREE.forEach(node=>{
+    const isOn=openL2.has(node.o);
+    const cls=F.l2c(node.o);
+    const gv=F.tgtv(node.ms);
+    h+=`<div class="ncol">`;
+    h+=`<div class="n-l2 ${cls}${isOn?' on':''}" onclick="togL2('${e(node.o)}')">
+      <div class="n-l2-name">${node.o}</div>
+      <div class="n-l2-meta">${node.ms.length} museums${gv?' · '+gv:''}</div>
+      <span class="caret">${isOn?'▲':'▼'}</span>
+    </div>`;
+    if(isOn){
+      const standalones=node.ms.filter(m=>!m.controlling_entity);
+      const items=[
+        ...node.ents.map(g=>({type:'group',ownership:node.o,data:g,sv:g.ms.reduce((s,m)=>s+(m.gtv||0),0),key:node.o+'::'+g.n})),
+        ...(standalones.length?[{type:'nogroup',ownership:node.o,ms:standalones,sv:standalones.reduce((s,m)=>s+(m.gtv||0),0),key:node.o+'::__ng'}]:[])
+      ].sort((a,b)=>b.sv-a.sv);
+      h+=`<div class="vline-s"></div><div class="l3-row">`;
+      items.forEach(item=>{
+        const isOnL3=openL3.has(item.key);
+        h+=`<div class="ncol">`;
+        if(item.type==='group'){
+          const igv=F.tgtv(item.data.ms);
+          h+=`<div class="own-lbl">${F.os(item.ownership)}</div>
+            <div class="n-l3${isOnL3?' on':''}" onclick="togL3('${e(item.key)}')">
+              <div class="n-l3-name">${item.data.n}</div>
+              <div class="n-l3-meta">${item.data.ms.length} museums</div>
+              ${igv?`<div class="n-l3-gtv">${igv}</div>`:''}
+              <span class="caret">${isOnL3?'▲':'▼'}</span>
+            </div>`;
+        } else {
+          const igv=F.tgtv(item.ms);
+          h+=`<div class="own-lbl">${F.os(item.ownership)}</div>
+            <div class="n-ng${isOnL3?' on':''}" onclick="togL3('${e(item.key)}')">
+              <div class="n-ng-name">No group associated</div>
+              <div class="n-ng-meta">${item.ms.length} museums${igv?' · '+igv:''}</div>
+              <span class="caret">${isOnL3?'▲':'▼'}</span>
+            </div>`;
+        }
+        if(isOnL3){
+          const ms=item.type==='group'?item.data.ms:item.ms;
+          h+=`<div class="vline-s"></div><div class="l4-row">`;
+          ms.forEach(m=>{
+            const g=F.gtv(m.gtv,m.admission_model);
+            h+=`<div class="n-l4" onclick="openMuseum('${e(m.name)}')">
+              <span class="vdot ${F.vd(m.vendor_confidence,m.ticketing_system)}"></span>
+              <div class="n-l4-name">${m.name}</div>
+              <div class="n-l4-city">${m.city}</div>
+              <div class="n-l4-row">
+                <span class="n-l4-gtv ${g.c}">${g.s}</span>
+                <span class="admtag ${F.ac(m.admission_model)}">${F.al(m.admission_model)}</span>
+              </div>
+              <div class="n-l4-vnd">${F.vn(m.ticketing_system)}</div>
+            </div>`;
+          });
+          h+=`</div>`;
+        }
+        h+=`</div>`;
+      });
+      h+=`</div>`;
+    }
+    h+=`</div>`;
+  });
+  h+=`</div>`;
+  document.getElementById('tree-root').innerHTML=h;
+}
+
+/* ══ CARDS ══ */
+let selectedMuseums=new Set();
+
+function buildList(){
+  const sorted=[...D].sort((a,b)=>{
+    const ag=a.gtv&&a.gtv>0?a.gtv:-1,bg=b.gtv&&b.gtv>0?b.gtv:-1;
+    return bg-ag;
+  });
+  document.getElementById('museum-list-items').innerHTML=sorted.map(m=>{
+    const g=F.gtv(m.gtv,m.admission_model);
+    const sel=selectedMuseums.has(m.name);
+    return`<div class="list-item${sel?' selected':''}" onclick="toggleMuseum('${e(m.name)}')" data-name="${m.name.replace(/"/g,'&quot;')}">
+      <span class="list-item-name">${m.name}</span>
+      <span class="list-item-gtv ${g.c}">${g.s}</span>
+      <span class="list-sel-dot"></span>
+    </div>`;
+  }).join('');
+}
+
+function toggleMuseum(name){
+  if(selectedMuseums.has(name)) selectedMuseums.delete(name);
+  else selectedMuseums.add(name);
+  buildList();
+  renderDetail();
+}
+
+function renderDetail(){
+  const det=document.getElementById('card-detail');
+  if(selectedMuseums.size===0){
+    det.innerHTML=`<div class="card-detail-empty"><div class="card-detail-empty-icon">←</div><div>Select one or more museums from the list</div></div>`;
+    return;
+  }
+  const sel=D.filter(m=>selectedMuseums.has(m.name)).sort((a,b)=>(b.gtv||0)-(a.gtv||0));
+  det.innerHTML=sel.map(m=>{
+    const g=F.gtv(m.gtv,m.admission_model);
+    const uv=!m.ticketing_system||m.ticketing_system==='NOT FOUND'||m.ticketing_system==='—';
+    return`<div class="detail-card" style="margin-bottom:16px">
+      <div class="dc-top">
+        <div class="dc-name">${m.name}</div>
+        <div class="dc-badges">
+          <span class="ob ${F.oc(m.ownership)}">${F.os(m.ownership)}</span>
+          <span class="admtag ${F.ac(m.admission_model)}" style="font-size:10px;padding:3px 8px">${F.al(m.admission_model)}</span>
+        </div>
+      </div>
+      <div class="dc-city">${m.city}${F.state(m.city)!=='—'?', '+F.state(m.city):''} · ${m.museum_type||'—'}</div>
+      ${m.controlling_entity?`<div class="dc-entity">Group: ${m.controlling_entity}</div>`:''}
+      <div class="dc-metrics">
+        <div class="metric">
+          <div class="metric-l">Est. GTV</div>
+          <div class="metric-v ${g.c==='free'?'mv-free':g.c==='unk'?'mv-unk':''}">${g.s}</div>
+        </div>
+        <div class="metric">
+          <div class="metric-l">Annual visitors</div>
+          <div class="metric-v ${!m.visitors?'mv-unk':''}">${F.vis(m.visitors)}${m.visitor_year?' ('+m.visitor_year+')':''}</div>
+        </div>
+        <div class="metric">
+          <div class="metric-l">Average ticket price</div>
+          <div class="metric-v">${F.price(m.price)}</div>
+        </div>
+      </div>
+      <div class="dc-section">
+        <div class="dc-section-title">Ticketing</div>
+        <div class="dc-row">
+          <div class="dc-kv">
+            <div class="dc-key">Vendor / platform</div>
+            <div class="dc-val ${uv?'unknown':''}">${uv?'Vendor unknown':(m.ticketing_system||'—')}</div>
+          </div>
+          <div class="dc-kv">
+            <div class="dc-key">Confidence</div>
+            <div class="dc-val" style="display:flex;align-items:center">
+              <span class="vdot-inline ${F.vd(m.vendor_confidence,m.ticketing_system)}"></span>
+              ${uv?'—':(m.vendor_confidence||'—')}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dc-section">
+        <div class="dc-section-title">Ownership</div>
+        <div class="dc-row">
+          <div class="dc-kv">
+            <div class="dc-key">Ownership type</div>
+            <div class="dc-val">${m.ownership||'—'}</div>
+          </div>
+          ${m.detailed_ownership?`<div class="dc-kv" style="max-width:300px"><div class="dc-key">Detailed</div><div class="dc-val" style="font-size:11px">${m.detailed_ownership}</div></div>`:''}
+        </div>
+      </div>
+      ${m.notes?`<div class="dc-section"><div class="dc-section-title">Notes</div><div class="dc-notes">${m.notes}</div></div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function openMuseum(name){
+  switchTab('cards', document.getElementById('tab-cards'));
+  selectedMuseums.clear();
+  selectedMuseums.add(name);
+  buildList();
+  renderDetail();
+  setTimeout(()=>{
+    const items=document.querySelectorAll('.list-item');
+    items.forEach(el=>{if(el.dataset.name===name)el.scrollIntoView({block:'nearest'});});
+  },50);
+}
+
+function e(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+
+/* ══ TABLE ══ */
+let tSF='gtv',tSD='desc';
+function applyT(){
+  const fs=(document.getElementById('tfs').value||'').toLowerCase();
+  const fo=document.getElementById('tfo').value;
+  const fa=document.getElementById('tfa').value;
+  const fv=document.getElementById('tfv').value;
+  let arr=D.filter(m=>{
+    if(fs&&!m.name.toLowerCase().includes(fs)&&!(m.city||'').toLowerCase().includes(fs))return false;
+    if(fo&&m.ownership!==fo)return false;
+    if(fa&&m.admission_model!==fa)return false;
+    if(fv){const v=m.ticketing_system||'';if(fv==='NOT FOUND'){if(v&&v!=='NOT FOUND'&&v!=='—')return false;}else if(!v.includes(fv))return false;}
+    return true;
+  });
+  arr.sort((a,b)=>{
+    const av=tSF==='name'?a.name.toLowerCase():tSF==='gtv'?(a.gtv&&a.gtv>0?a.gtv:-1):(a.visitors||-1);
+    const bv=tSF==='name'?b.name.toLowerCase():tSF==='gtv'?(b.gtv&&b.gtv>0?b.gtv:-1):(b.visitors||-1);
+    if(typeof av==='string')return tSD==='asc'?av.localeCompare(bv):bv.localeCompare(av);
+    return tSD==='desc'?bv-av:av-bv;
+  });
+  document.getElementById('tcnt').textContent=arr.length+' museum'+(arr.length!==1?'s':'');
+  const uv=s=>!s||s==='NOT FOUND'||s==='—';
+  const vc=m=>m.vendor_confidence==='High'?'var(--g600)':m.vendor_confidence==='Medium'?'var(--a600)':'var(--tx3)';
+  document.getElementById('tbody').innerHTML=arr.map(m=>{
+    const g=F.gtv(m.gtv,m.admission_model);
+    return`<tr>
+      <td class="tc-g" style="${g.c==='free'?'color:var(--g600)':g.c==='unk'?'color:var(--tx3);font-weight:400':''}">${g.s}</td>
+      <td class="tc-n">${m.name}</td>
+      <td class="tc-v">${F.vis(m.visitors)}${m.visitor_year?' ('+m.visitor_year+')':''}</td>
+      <td class="tc-c">${m.city||'—'}</td>
+      <td style="font-size:11px;color:var(--tx2)">${m.museum_type||'—'}</td>
+      <td><span class="tb ${F.oc(m.ownership)}">${F.os(m.ownership)}</span></td>
+      <td style="font-size:11px;color:var(--tx2)">${m.controlling_entity||'—'}</td>
+      <td><span class="tb ${F.ac(m.admission_model)}">${F.al(m.admission_model)}</span></td>
+      <td style="font-size:11px;color:var(--tx2)">${F.price(m.price)}</td>
+      <td style="font-size:11px"><span class="vdot ${F.vd(m.vendor_confidence,m.ticketing_system)}" style="display:inline-block;margin-right:4px;vertical-align:middle"></span>${uv(m.ticketing_system)?'Vendor unknown':m.ticketing_system}</td>
+      <td style="font-size:11px;color:${vc(m)}">${uv(m.ticketing_system)?'—':(m.vendor_confidence||'—')}</td>
+
+    </tr>`;
+  }).join('');
+}
+function tSrt(f){
+  if(tSF===f)tSD=tSD==='desc'?'asc':'desc';else{tSF=f;tSD=f==='name'?'asc':'desc';}
+  ['gtv','visitors','name'].forEach(ff=>{
+    const el=document.getElementById('tsi-'+ff);
+    if(el)el.textContent=ff===tSF?(tSD==='desc'?'↓':'↑'):'↕';
+    const th=el?.parentElement;
+    if(th)th.classList.toggle('sorted',ff===tSF);
+  });
+  applyT();
+}
+function clearT(){document.getElementById('tfs').value='';['tfo','tfa','tfv'].forEach(id=>document.getElementById(id).value='');applyT();}
+
+function switchTab(t,btn){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+t).classList.add('on');
+  btn.classList.add('on');
+  if(t==='table')applyT();
+}
+
+function init(){rTree();buildList();renderDetail();applyT();}
+init();
+
+/* ── Live sync from Google Sheet ── */
+const CSV_URL='https://docs.google.com/spreadsheets/d/1rYD2n1e366s3EVMw8VJPH7l2WL-QCU4WHnJBMTbeuVQ/export?format=csv&gid=1281920743';
+
+function parseCSVLine(line){
+  const r=[];let c='',q=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'){if(q&&line[i+1]==='"'){c+='"';i++;}else q=!q;}
+    else if(ch===','&&!q){r.push(c.trim());c='';}
+    else c+=ch;
+  }
+  r.push(c.trim());
+  return r;
+}
+
+function parseN(s){
+  if(!s)return 0;
+  const n=parseFloat(String(s).replace(/[,$\s]/g,''));
+  return isNaN(n)?0:n;
+}
+
+function parseSheet(text){
+  const rows=text.split('\n').filter(l=>l.trim());
+  return rows.slice(1).map(row=>{
+    const c=parseCSVLine(row);
+    return{
+      name:          c[0]||'',
+      ownership:     c[1]||'',
+      controlling_entity: c[2]||'',
+      group_type:    c[3]||'',
+      museum_type:   c[4]||'',
+      country:       c[5]||'',
+      city:          c[6]||'',
+      detailed_ownership: c[7]||'',
+      visitors:      parseN(c[8]),
+      visitor_year:  c[9]||'',
+      price:         parseN(c[10]),
+      gtv:           parseN(c[11]),
+      admission_model: c[12]||'',
+      visitor_source: c[13]||'',
+      price_source:  c[14]||'',
+      ticketing_system: c[15]||'',
+      vendor_confidence: c[16]||'',
+      notes:         c[17]||''
+    };
+  }).filter(m=>m.name);
+}
+
+fetch(CSV_URL)
+  .then(r=>{if(!r.ok)throw new Error(r.status);return r.text();})
+  .then(text=>{
+    const fresh=parseSheet(text);
+    if(fresh.length){D=fresh;init();}
+  })
+  .catch(()=>{
+    console.warn('Sheet fetch failed — showing cached data. Check sheet is set to Anyone with the link can view.');
+  });
+</script>
+</body>
+</html>
