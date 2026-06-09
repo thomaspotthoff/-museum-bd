@@ -180,6 +180,16 @@ td{padding:8px 12px;vertical-align:middle}
 .tc-v{color:var(--tx2);font-variant-numeric:tabular-nums}
 .tb{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600;text-transform:uppercase;letter-spacing:.2px}
 .empty{text-align:center;padding:48px;color:var(--tx3)}
+.list-group-hdr{display:flex;align-items:center;padding:7px 14px;cursor:pointer;border-bottom:1px solid var(--bd);user-select:none;position:sticky;top:0;z-index:1;gap:6px}
+.list-group-hdr.np{background:#1E3016}.list-group-hdr.gov{background:#1A2E44}.list-group-hdr.hyb{background:#272010}.list-group-hdr.com{background:#271616}
+.list-group-hdr-name{font-size:10px;font-weight:600;flex:1;text-transform:uppercase;letter-spacing:.5px}
+.np .list-group-hdr-name{color:var(--g800)}.gov .list-group-hdr-name{color:var(--b800)}.hyb .list-group-hdr-name{color:var(--a800)}.com .list-group-hdr-name{color:var(--r800)}
+.list-group-hdr-cnt{font-size:10px;color:var(--tx3)}.list-group-hdr-caret{font-size:9px;color:var(--tx3)}
+.chip-grp{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.chip{border:1px solid var(--bd2);background:none;padding:4px 9px;border-radius:4px;cursor:pointer;font-size:11px;color:var(--tx3);font-family:inherit;transition:all .15s;white-space:nowrap}
+.chip:hover{border-color:var(--bd3);color:var(--tx2)}.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.card-btn{border:1px solid var(--bd2);background:none;padding:3px 8px;border-radius:4px;cursor:pointer;font-size:10px;color:var(--tx3);font-family:inherit;white-space:nowrap}
+.card-btn:hover{border-color:var(--accent);color:var(--accent)}
 </style>
 </head>
 <body>
@@ -188,7 +198,7 @@ td{padding:8px 12px;vertical-align:middle}
   <div class="tl">
     <div class="logo">US</div>
     <span class="tbar-title">Museum Opportunity Map</span>
-    <span class="tbar-sub">United States · 83 museums</span>
+    <span class="tbar-sub" id="tbar-count">United States · 83 museums</span>
   </div>
   <div class="tab-grp">
     <button class="tab on" id="tab-tree" onclick="switchTab('tree',this)">Museum tree</button>
@@ -223,29 +233,26 @@ td{padding:8px 12px;vertical-align:middle}
   <div class="tbar">
     <span class="flabel">Filter</span>
     <input type="text" id="tfs" placeholder="Search…" oninput="applyT()">
-    <select id="tfo" onchange="applyT()">
-      <option value="">All ownership</option>
-      <option>Private Nonprofit</option>
-      <option>Public / Government</option>
-      <option>Public-Private Hybrid</option>
-      <option>Commercial / For-Profit</option>
-    </select>
-    <select id="tfa" onchange="applyT()">
-      <option value="">All admission</option>
-      <option>Paid GA</option>
-      <option>Free GA</option>
-      <option value="Suggested Admission">Sugg. admission</option>
-      <option>Partial Paid GA</option>
-    </select>
-    <select id="tfv" onchange="applyT()">
-      <option value="">All vendors</option>
-      <option value="Tessitura">Tessitura</option>
-      <option value="Ticketure">Ticketure</option>
-      <option value="Gateway">Gateway (Galaxy)</option>
-      <option value="ACME">ACME Ticketing</option>
-      <option value="Blackbaud">Blackbaud Altru</option>
-      <option value="NOT FOUND">Vendor unknown</option>
-    </select>
+    <div class="chip-grp" id="fo-chips">
+      <button class="chip" data-val="Private Nonprofit" onclick="togChip('fo',this)">Nonprofit</button>
+      <button class="chip" data-val="Public / Government" onclick="togChip('fo',this)">Government</button>
+      <button class="chip" data-val="Public-Private Hybrid" onclick="togChip('fo',this)">Hybrid</button>
+      <button class="chip" data-val="Commercial / For-Profit" onclick="togChip('fo',this)">For-Profit</button>
+    </div>
+    <div class="chip-grp" id="fa-chips">
+      <button class="chip" data-val="Paid GA" onclick="togChip('fa',this)">Paid</button>
+      <button class="chip" data-val="Free GA" onclick="togChip('fa',this)">Free</button>
+      <button class="chip" data-val="Suggested Admission" onclick="togChip('fa',this)">Suggested</button>
+      <button class="chip" data-val="Partial Paid GA" onclick="togChip('fa',this)">Partial</button>
+    </div>
+    <div class="chip-grp" id="fv-chips">
+      <button class="chip" data-val="Tessitura" onclick="togChip('fv',this)">Tessitura</button>
+      <button class="chip" data-val="Ticketure" onclick="togChip('fv',this)">Ticketure</button>
+      <button class="chip" data-val="Gateway" onclick="togChip('fv',this)">Gateway</button>
+      <button class="chip" data-val="ACME" onclick="togChip('fv',this)">ACME</button>
+      <button class="chip" data-val="Blackbaud" onclick="togChip('fv',this)">Blackbaud</button>
+      <button class="chip" data-val="NOT FOUND" onclick="togChip('fv',this)">Unknown</button>
+    </div>
     <button class="clr-btn" onclick="clearT()">Clear</button>
     <span class="tcnt" id="tcnt">83 museums</span>
     <a style="font-size:12px;font-weight:600;color:#fff;text-decoration:none;padding:6px 14px;border-radius:4px;background:var(--accent);white-space:nowrap" href="https://docs.google.com/spreadsheets/d/1rYD2n1e366s3EVMw8VJPH7l2WL-QCU4WHnJBMTbeuVQ/edit?gid=1281920743#gid=1281920743" target="_blank">Open mapping spreadsheet ↗</a>
@@ -254,6 +261,7 @@ td{padding:8px 12px;vertical-align:middle}
     <table>
       <thead><tr>
         <th class="sorted" onclick="tSrt('gtv')">Est. GTV <span id="tsi-gtv">↓</span></th>
+        <th></th>
         <th onclick="tSrt('name')">Museum <span id="tsi-name">↕</span></th>
         <th onclick="tSrt('visitors')">Visitors <span id="tsi-visitors">↕</span></th>
         <th>City</th>
@@ -396,20 +404,31 @@ function rTree(){
 /* ══ CARDS ══ */
 let selectedMuseums=new Set();
 
+const openOwnership=new Set(ORDER);
+function togOwnership(o){openOwnership.has(o)?openOwnership.delete(o):openOwnership.add(o);buildList();}
 function buildList(){
-  const sorted=[...D].sort((a,b)=>{
-    const ag=a.gtv&&a.gtv>0?a.gtv:-1,bg=b.gtv&&b.gtv>0?b.gtv:-1;
-    return bg-ag;
-  });
-  document.getElementById('museum-list-items').innerHTML=sorted.map(m=>{
-    const g=F.gtv(m.gtv,m.admission_model);
-    const sel=selectedMuseums.has(m.name);
-    return`<div class="list-item${sel?' selected':''}" onclick="toggleMuseum('${e(m.name)}')" data-name="${m.name.replace(/"/g,'&quot;')}">
-      <span class="list-item-name">${m.name}</span>
-      <span class="list-item-gtv ${g.c}">${g.s}</span>
-      <span class="list-sel-dot"></span>
+  const byO={};ORDER.forEach(o=>byO[o]=[]);
+  D.forEach(m=>{const o=m.ownership||'Unknown';if(byO[o])byO[o].push(m);});
+  ORDER.forEach(o=>byO[o].sort((a,b)=>{const ag=a.gtv>0?a.gtv:-1,bg=b.gtv>0?b.gtv:-1;return bg-ag;}));
+  let html='';
+  ORDER.forEach(o=>{
+    const ms=byO[o];if(!ms||!ms.length)return;
+    const isOn=openOwnership.has(o);const cls=F.l2c(o);
+    html+=`<div class="list-group-hdr ${cls}" onclick="togOwnership('${e(o)}')">
+      <span class="list-group-hdr-name">${F.os(o)}</span>
+      <span class="list-group-hdr-cnt">${ms.length}</span>
+      <span class="list-group-hdr-caret">${isOn?'▲':'▼'}</span>
     </div>`;
-  }).join('');
+    if(isOn)ms.forEach(m=>{
+      const g=F.gtv(m.gtv,m.admission_model);const sel=selectedMuseums.has(m.name);
+      html+=`<div class="list-item${sel?' selected':''}" onclick="toggleMuseum('${e(m.name)}')" data-name="${m.name.replace(/"/g,'&quot;')}">
+        <span class="list-item-name">${m.name}</span>
+        <span class="list-item-gtv ${g.c}">${g.s}</span>
+        <span class="list-sel-dot"></span>
+      </div>`;
+    });
+  });
+  document.getElementById('museum-list-items').innerHTML=html;
 }
 
 function toggleMuseum(name){
@@ -499,17 +518,25 @@ function openMuseum(name){
 function e(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 
 /* ══ TABLE ══ */
+const fSets={fo:new Set(),fa:new Set(),fv:new Set()};
+function togChip(key,btn){
+  const val=btn.dataset.val;
+  fSets[key].has(val)?fSets[key].delete(val):fSets[key].add(val);
+  btn.classList.toggle('on',fSets[key].has(val));
+  applyT();
+}
 let tSF='gtv',tSD='desc';
 function applyT(){
   const fs=(document.getElementById('tfs').value||'').toLowerCase();
-  const fo=document.getElementById('tfo').value;
-  const fa=document.getElementById('tfa').value;
-  const fv=document.getElementById('tfv').value;
   let arr=D.filter(m=>{
     if(fs&&!m.name.toLowerCase().includes(fs)&&!(m.city||'').toLowerCase().includes(fs))return false;
-    if(fo&&m.ownership!==fo)return false;
-    if(fa&&m.admission_model!==fa)return false;
-    if(fv){const v=m.ticketing_system||'';if(fv==='NOT FOUND'){if(v&&v!=='NOT FOUND'&&v!=='—')return false;}else if(!v.includes(fv))return false;}
+    if(fSets.fo.size&&!fSets.fo.has(m.ownership))return false;
+    if(fSets.fa.size&&!fSets.fa.has(m.admission_model))return false;
+    if(fSets.fv.size){
+      const v=m.ticketing_system||'';let ok=false;
+      fSets.fv.forEach(f=>{if(f==='NOT FOUND'){if(!v||v==='NOT FOUND'||v==='—')ok=true;}else if(v.includes(f))ok=true;});
+      if(!ok)return false;
+    }
     return true;
   });
   arr.sort((a,b)=>{
@@ -525,6 +552,7 @@ function applyT(){
     const g=F.gtv(m.gtv,m.admission_model);
     return`<tr>
       <td class="tc-g" style="${g.c==='free'?'color:var(--g600)':g.c==='unk'?'color:var(--tx3);font-weight:400':''}">${g.s}</td>
+      <td><button class="card-btn" onclick="openMuseum('${e(m.name)}')">Card ↗</button></td>
       <td class="tc-n">${m.name}</td>
       <td class="tc-v">${F.vis(m.visitors)}${m.visitor_year?' ('+m.visitor_year+')':''}</td>
       <td class="tc-c">${m.city||'—'}</td>
@@ -549,7 +577,11 @@ function tSrt(f){
   });
   applyT();
 }
-function clearT(){document.getElementById('tfs').value='';['tfo','tfa','tfv'].forEach(id=>document.getElementById(id).value='');applyT();}
+function clearT(){
+  document.getElementById('tfs').value='';
+  Object.keys(fSets).forEach(k=>{fSets[k].clear();document.querySelectorAll('#'+k+'-chips .chip').forEach(b=>b.classList.remove('on'));});
+  applyT();
+}
 
 function switchTab(t,btn){
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
@@ -559,7 +591,11 @@ function switchTab(t,btn){
   if(t==='table')applyT();
 }
 
-function init(){rTree();buildList();renderDetail();applyT();}
+function init(){
+  rTree();buildList();renderDetail();applyT();
+  const n=D.length;
+  document.getElementById('tbar-count').textContent='United States · '+n+' museum'+(n!==1?'s':'');
+}
 init();
 
 /* ── Live sync from Google Sheet ── */
