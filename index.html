@@ -188,9 +188,17 @@ td{padding:8px 12px;vertical-align:middle}
 .list-group-hdr-name{font-size:10px;font-weight:600;flex:1;text-transform:uppercase;letter-spacing:.5px}
 .np .list-group-hdr-name{color:var(--g800)}.gov .list-group-hdr-name{color:var(--b800)}.hyb .list-group-hdr-name{color:var(--a800)}.com .list-group-hdr-name{color:var(--r800)}
 .list-group-hdr-cnt{font-size:10px;color:var(--tx3)}.list-group-hdr-caret{font-size:9px;color:var(--tx3)}
-.chip-grp{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
-.chip{border:1px solid var(--bd2);background:none;padding:4px 9px;border-radius:4px;cursor:pointer;font-size:11px;color:var(--tx3);font-family:inherit;transition:all .15s;white-space:nowrap}
-.chip:hover{border-color:var(--bd3);color:var(--tx2)}.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.msel{position:relative}
+.msel-btn{border:1px solid var(--bd2);border-radius:5px;padding:5px 10px;font-size:12px;background:var(--sf2);color:var(--tx2);cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.msel-btn:hover{border-color:var(--bd3);color:var(--tx)}
+.msel-btn.active{border-color:var(--accent);color:var(--tx)}
+.msel-cnt{color:var(--accent);font-size:11px;font-weight:600}
+.msel-arrow{color:var(--tx3);font-size:10px}
+.msel-drop{display:none;position:absolute;top:calc(100% + 4px);left:0;background:var(--surface);border:1px solid var(--bd2);border-radius:6px;padding:5px;min-width:170px;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,.35)}
+.msel-drop.open{display:block}
+.msel-opt{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:4px;cursor:pointer;font-size:12px;color:var(--tx2);user-select:none}
+.msel-opt:hover{background:var(--sf2);color:var(--tx)}
+.msel-opt input[type=checkbox]{accent-color:var(--accent);cursor:pointer;flex-shrink:0}
 .card-btn{border:1px solid var(--bd2);background:none;padding:3px 8px;border-radius:4px;cursor:pointer;font-size:10px;color:var(--tx3);font-family:inherit;white-space:nowrap}
 .card-btn:hover{border-color:var(--accent);color:var(--accent)}
 </style>
@@ -237,25 +245,34 @@ td{padding:8px 12px;vertical-align:middle}
   <div class="tbar">
     <span class="flabel">Filter</span>
     <input type="text" id="tfs" placeholder="Search…" oninput="applyT()">
-    <div class="chip-grp" id="fo-chips">
-      <button class="chip" data-val="Private Nonprofit" onclick="togChip('fo',this)">Nonprofit</button>
-      <button class="chip" data-val="Public / Government" onclick="togChip('fo',this)">Government</button>
-      <button class="chip" data-val="Public-Private Hybrid" onclick="togChip('fo',this)">Hybrid</button>
-      <button class="chip" data-val="Commercial / For-Profit" onclick="togChip('fo',this)">For-Profit</button>
+    <div class="msel" id="msel-fo">
+      <button class="msel-btn" onclick="togMsel('fo')">Ownership <span class="msel-cnt" id="msel-fo-cnt"></span><span class="msel-arrow">▾</span></button>
+      <div class="msel-drop" id="msel-fo-drop">
+        <label class="msel-opt"><input type="checkbox" data-key="fo" value="Private Nonprofit" onchange="onChk(this)"><span>Nonprofit</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fo" value="Public / Government" onchange="onChk(this)"><span>Government</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fo" value="Public-Private Hybrid" onchange="onChk(this)"><span>Hybrid</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fo" value="Commercial / For-Profit" onchange="onChk(this)"><span>For-Profit</span></label>
+      </div>
     </div>
-    <div class="chip-grp" id="fa-chips">
-      <button class="chip" data-val="Paid GA" onclick="togChip('fa',this)">Paid</button>
-      <button class="chip" data-val="Free GA" onclick="togChip('fa',this)">Free</button>
-      <button class="chip" data-val="Suggested Admission" onclick="togChip('fa',this)">Suggested</button>
-      <button class="chip" data-val="Partial Paid GA" onclick="togChip('fa',this)">Partial</button>
+    <div class="msel" id="msel-fa">
+      <button class="msel-btn" onclick="togMsel('fa')">Admission <span class="msel-cnt" id="msel-fa-cnt"></span><span class="msel-arrow">▾</span></button>
+      <div class="msel-drop" id="msel-fa-drop">
+        <label class="msel-opt"><input type="checkbox" data-key="fa" value="Paid GA" onchange="onChk(this)"><span>Paid GA</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fa" value="Free GA" onchange="onChk(this)"><span>Free GA</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fa" value="Suggested Admission" onchange="onChk(this)"><span>Suggested admission</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fa" value="Partial Paid GA" onchange="onChk(this)"><span>Partial paid GA</span></label>
+      </div>
     </div>
-    <div class="chip-grp" id="fv-chips">
-      <button class="chip" data-val="Tessitura" onclick="togChip('fv',this)">Tessitura</button>
-      <button class="chip" data-val="Ticketure" onclick="togChip('fv',this)">Ticketure</button>
-      <button class="chip" data-val="Gateway" onclick="togChip('fv',this)">Gateway</button>
-      <button class="chip" data-val="ACME" onclick="togChip('fv',this)">ACME</button>
-      <button class="chip" data-val="Blackbaud" onclick="togChip('fv',this)">Blackbaud</button>
-      <button class="chip" data-val="NOT FOUND" onclick="togChip('fv',this)">Unknown</button>
+    <div class="msel" id="msel-fv">
+      <button class="msel-btn" onclick="togMsel('fv')">Vendor <span class="msel-cnt" id="msel-fv-cnt"></span><span class="msel-arrow">▾</span></button>
+      <div class="msel-drop" id="msel-fv-drop">
+        <label class="msel-opt"><input type="checkbox" data-key="fv" value="Tessitura" onchange="onChk(this)"><span>Tessitura</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fv" value="Ticketure" onchange="onChk(this)"><span>Ticketure</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fv" value="Gateway" onchange="onChk(this)"><span>Gateway (Galaxy)</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fv" value="ACME" onchange="onChk(this)"><span>ACME Ticketing</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fv" value="Blackbaud" onchange="onChk(this)"><span>Blackbaud Altru</span></label>
+        <label class="msel-opt"><input type="checkbox" data-key="fv" value="NOT FOUND" onchange="onChk(this)"><span>Vendor unknown</span></label>
+      </div>
     </div>
     <button class="clr-btn" onclick="clearT()">Clear</button>
     <span class="tcnt" id="tcnt">83 museums</span>
@@ -526,12 +543,19 @@ function e(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 
 /* ══ TABLE ══ */
 const fSets={fo:new Set(),fa:new Set(),fv:new Set()};
-function togChip(key,btn){
-  const val=btn.dataset.val;
-  fSets[key].has(val)?fSets[key].delete(val):fSets[key].add(val);
-  btn.classList.toggle('on',fSets[key].has(val));
+function togMsel(key){
+  document.querySelectorAll('.msel-drop').forEach(d=>{if(d.id!=='msel-'+key+'-drop')d.classList.remove('open');});
+  document.getElementById('msel-'+key+'-drop').classList.toggle('open');
+}
+function onChk(cb){
+  const key=cb.dataset.key,val=cb.value;
+  cb.checked?fSets[key].add(val):fSets[key].delete(val);
+  const cnt=fSets[key].size;
+  document.getElementById('msel-'+key+'-cnt').textContent=cnt?'('+cnt+')':'';
+  document.getElementById('msel-'+key).querySelector('.msel-btn').classList.toggle('active',cnt>0);
   applyT();
 }
+document.addEventListener('click',e=>{if(!e.target.closest('.msel'))document.querySelectorAll('.msel-drop').forEach(d=>d.classList.remove('open'));});
 let tSF='gtv',tSD='desc';
 function applyT(){
   const fs=(document.getElementById('tfs').value||'').toLowerCase();
@@ -586,7 +610,12 @@ function tSrt(f){
 }
 function clearT(){
   document.getElementById('tfs').value='';
-  Object.keys(fSets).forEach(k=>{fSets[k].clear();document.querySelectorAll('#'+k+'-chips .chip').forEach(b=>b.classList.remove('on'));});
+  Object.keys(fSets).forEach(k=>{
+    fSets[k].clear();
+    document.querySelectorAll('[data-key="'+k+'"]').forEach(cb=>cb.checked=false);
+    document.getElementById('msel-'+k+'-cnt').textContent='';
+    document.getElementById('msel-'+k).querySelector('.msel-btn').classList.remove('active');
+  });
   applyT();
 }
 
