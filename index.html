@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -47,7 +47,9 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,A
 .vline-s{width:1.5px;height:16px;background:var(--conn);margin:0 auto}
 .tree-row{display:flex;justify-content:center;gap:14px;width:100%;flex-wrap:wrap}
 .ncol{display:flex;flex-direction:column;align-items:center}
-.caret{font-size:9px;color:var(--tx3);margin-top:5px;display:block}
+.caret{font-size:12px;color:var(--tx3);margin-top:5px;display:block;opacity:.65;transition:opacity .15s}
+.n-l2:hover .caret{opacity:1}
+.np .caret{color:var(--g600)}.gov .caret{color:var(--b600)}.hyb .caret{color:var(--a600)}.com .caret{color:var(--r600)}
 
 .n-root{background:var(--accent);color:#fff;border-radius:8px;padding:14px 28px;text-align:center;cursor:pointer;min-width:240px;user-select:none;transition:opacity .15s}
 .n-root:hover{opacity:.88}
@@ -57,6 +59,63 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,A
 
 .n-l2{border-radius:6px;padding:11px 16px;text-align:center;cursor:pointer;min-width:155px;user-select:none;transition:box-shadow .15s;border:1.5px solid transparent;height:70px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .n-l2:hover{box-shadow:0 2px 12px rgba(0,0,0,.35)}
+.l2-card-wrap{position:relative;display:inline-block}
+.l2-info{position:absolute;left:-12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:10;cursor:default;font-size:12px;font-weight:400;font-style:italic;font-family:Georgia,serif;line-height:1;transition:transform .18s,box-shadow .18s;user-select:none}
+.l2-info:hover{transform:translateY(-50%) scale(1.15)}
+.l2-info.np{background:var(--g600);color:#fff;box-shadow:0 0 0 2px var(--g50),0 2px 8px rgba(109,179,63,.45)}
+.l2-info.gov{background:var(--b600);color:#fff;box-shadow:0 0 0 2px var(--b50),0 2px 8px rgba(91,159,232,.45)}
+.l2-info.hyb{background:var(--a600);color:#fff;box-shadow:0 0 0 2px var(--a50),0 2px 8px rgba(201,125,26,.45)}
+.l2-info.com{background:var(--r600);color:#fff;box-shadow:0 0 0 2px var(--r50),0 2px 8px rgba(232,120,120,.45)}
+.l2-info.np:hover{box-shadow:0 0 0 2px var(--g50),0 0 14px rgba(109,179,63,.75)}
+.l2-info.gov:hover{box-shadow:0 0 0 2px var(--b50),0 0 14px rgba(91,159,232,.75)}
+.l2-info.hyb:hover{box-shadow:0 0 0 2px var(--a50),0 0 14px rgba(201,125,26,.75)}
+.l2-info.com:hover{box-shadow:0 0 0 2px var(--r50),0 0 14px rgba(232,120,120,.75)}
+.tt-wrap{position:relative;display:inline-block}
+.tt-panel{display:none;position:fixed;top:155px;left:50%;transform:translateX(-50%);width:min(1060px,96vw);max-height:70vh;overflow-y:auto;background:var(--sf2);border:1px solid var(--bd2);border-radius:12px;z-index:999;text-align:left;box-shadow:0 20px 70px rgba(0,0,0,.75);pointer-events:none;font-style:normal;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+.tt-panel.visible{display:block;pointer-events:auto}
+.tt-close{position:absolute;top:11px;right:14px;background:none;border:none;color:var(--tx3);font-size:18px;line-height:1;cursor:pointer;padding:2px 5px;border-radius:3px;font-family:inherit;transition:color .15s,background .15s;z-index:1}
+.tt-close:hover{color:var(--tx);background:var(--bd)}
+.tm-top{display:flex;align-items:center;gap:10px;margin-bottom:9px;padding-right:28px}
+.tm-hdr{padding:14px 20px 13px;border-bottom:1px solid var(--bd);background:var(--sf3)}
+
+.tm-title{font-size:14px;font-weight:700;color:var(--tx)}
+.tm-tag{font-size:10px;color:var(--tx3);padding:2px 9px;background:var(--bg);border:1px solid var(--bd);border-radius:20px;white-space:nowrap}
+.tm-summary{display:flex;flex-direction:column;gap:7px}
+.tm-sum-item{display:flex;gap:12px;align-items:baseline}
+.tm-sum-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);flex:0 0 80px;flex-shrink:0}
+.tm-sum-val{font-size:11px;color:var(--tx2);line-height:1.45;flex:1}
+.tm-body{padding:14px 20px 16px}
+.tm-cards{display:flex;gap:12px;margin-bottom:11px}
+.tm-card{flex:1;background:var(--bg);border:1px solid var(--bd);border-radius:8px;overflow:hidden;min-width:0}
+.tm-card-hdr{padding:7px 12px;background:var(--sf3);border-bottom:1px solid var(--bd);font-size:11px;font-weight:600;color:var(--tx)}
+.tm-fields{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.tm-field{display:flex;align-items:flex-start;gap:10px}
+.tm-fl{flex:0 0 100px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--tx3);padding-top:3px;line-height:1.3;flex-shrink:0}
+.tm-fv{flex:1;font-size:11px;color:var(--tx2);line-height:1.4;min-width:0}
+.tm-fvi{flex:1;font-size:10.5px;color:var(--tx3);line-height:1.4;font-style:italic;min-width:0}
+.tm-chips{display:flex;flex-wrap:wrap;gap:4px}
+.tm-chip{font-size:10px;color:var(--tx2);background:var(--sf3);border:1px solid var(--bd);border-radius:20px;padding:1px 8px;white-space:nowrap}
+.tm-chip-bd{font-size:10px;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(232,0,61,.25);border-radius:20px;padding:1px 8px;white-space:nowrap}
+.tm-key-diff{display:flex;align-items:flex-start;gap:10px;background:var(--sf3);border:1px solid var(--bd);border-radius:6px;padding:8px 12px}
+.tm-kdl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);white-space:nowrap;flex-shrink:0}
+.tm-kdv{font-size:11px;color:var(--tx2);line-height:1.45}
+.tm-split{display:flex;background:var(--bg);border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:11px}
+.tm-split-side{flex:1;min-width:0}
+.tm-split-hdr{padding:7px 12px;background:var(--sf3);border-bottom:1px solid var(--bd);font-size:11px;font-weight:600;color:var(--tx)}
+.tm-split-div{width:1px;background:var(--bd);flex-shrink:0}
+.tm-fact{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:7px;margin-bottom:11px}
+.tm-bd-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.n-l2-bubble{display:block;text-align:center;margin-bottom:5px}
+.n-l2-bubble-inner{display:inline-flex;flex-direction:column;align-items:center;gap:2px;padding:4px 11px;border-radius:10px;border:1px solid;font-size:9px;font-weight:600;letter-spacing:.3px;white-space:nowrap;line-height:1.4}
+.n-l2-bubble-lbl{font-size:8px;font-weight:400;font-style:italic;opacity:.7;letter-spacing:.15px}
+.n-l2-bubble.np .n-l2-bubble-inner{background:var(--g50);border-color:var(--g200);color:var(--g600)}
+.n-l2-bubble.gov .n-l2-bubble-inner{background:var(--b50);border-color:#2D5F8A;color:var(--b600)}
+.n-l2-bubble.hyb .n-l2-bubble-inner{background:var(--a50);border-color:#7A5218;color:var(--a600)}
+.n-l2-bubble.com .n-l2-bubble-inner{background:var(--r50);border-color:#7A2828;color:var(--r600)}
+.tm-metrics-note{font-size:9.5px;color:var(--tx3);margin-top:8px;line-height:1.45;padding:6px 10px;background:var(--bg);border:1px solid var(--bd);border-radius:4px}
+.tm-kdv ul{margin:0;padding-left:14px}
+.tm-kdv li{margin-bottom:4px}
+.tm-kdv li:last-child{margin-bottom:0}
 .n-l2.np{background:var(--g50);border-color:var(--g200)}
 .n-l2.gov{background:var(--b50);border-color:#2D5F8A}
 .n-l2.hyb{background:var(--a50);border-color:#7A5218}
@@ -341,13 +400,148 @@ function mkTree(){
   D.forEach(m=>{const o=m.ownership||'Unknown';if(!t[o])t[o]={ms:[],ents:{}};t[o].ms.push(m);if(m.controlling_entity){if(!t[o].ents[m.controlling_entity])t[o].ents[m.controlling_entity]=[];t[o].ents[m.controlling_entity].push(m);}});
   return ORDER.filter(o=>t[o]).map(o=>({o,ms:t[o].ms.sort((a,b)=>(b.gtv||0)-(a.gtv||0)),ents:Object.entries(t[o].ents).map(([n,ms])=>({n,ms:ms.sort((a,b)=>(b.gtv||0)-(a.gtv||0))})).sort((a,b)=>b.ms.length-a.ms.length)}));
 }
+const TIPS={
+  'Private Nonprofit':`
+    <div class="tm-hdr" style="border-left:4px solid var(--g600)">
+      <div class="tm-top"><div class="tm-title">Private Nonprofit</div></div>
+      <div class="tm-summary">
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">Non-governmental museum organized around a charitable, educational, scientific, or cultural mission. Revenue surplus must be reinvested into the institution.</div></div>
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Governance</div><div class="tm-sum-val">Museum leadership runs day-to-day operations. The Board of Trustees/Directors sits above leadership and is made up of external trustees.</div></div>
+      </div>
+    </div>
+    <div class="tm-body">
+      <div class="tm-cards">
+        <div class="tm-card">
+          <div class="tm-card-hdr">Independent Nonprofit Museum</div>
+          <div class="tm-fields">
+            <div class="tm-field"><div class="tm-fl">Top-level entity</div><div class="tm-fv">Museum itself</div></div>
+            <div class="tm-field"><div class="tm-fl">Board</div><div class="tm-fv">Governs the museum directly</div></div>
+            <div class="tm-field"><div class="tm-fl">Board size</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">~20&#8211;50 trustees</span></div></div></div>
+            <div class="tm-field"><div class="tm-fl">Typical external board members</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Major donors</span><span class="tm-chip">Philanthropists</span><span class="tm-chip">Business leaders</span><span class="tm-chip">Finance / legal</span><span class="tm-chip">Collectors</span><span class="tm-chip">Civic leaders</span></div></div></div>
+            <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">Museum of Fine Arts Boston &#8212; governed by a Board of Trustees of roughly 30 trustees</div></div>
+            <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Museum board</span></div></div></div>
+          </div>
+        </div>
+        <div class="tm-card">
+          <div class="tm-card-hdr">Foundation / Trust-Controlled Museum</div>
+          <div class="tm-fields">
+            <div class="tm-field"><div class="tm-fl">Top-level entity</div><div class="tm-fv">Foundation or trust above the museum</div></div>
+            <div class="tm-field"><div class="tm-fl">Board</div><div class="tm-fv">Governs the foundation/trust rather than the museum directly</div></div>
+            <div class="tm-field"><div class="tm-fl">Board size</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">~10&#8211;25 trustees</span></div></div></div>
+            <div class="tm-field"><div class="tm-fl">Typical external board members</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Major donors</span><span class="tm-chip">Philanthropists</span><span class="tm-chip">Business leaders</span><span class="tm-chip">Finance / legal</span><span class="tm-chip">Collectors</span><span class="tm-chip">Civic leaders</span></div></div></div>
+            <div class="tm-field"><div class="tm-fl">Scope</div><div class="tm-fv">Foundation/trust often oversees multiple museums, institutes, collections, endowments, or programs</div></div>
+            <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">J. Paul Getty Museum &#8594; J. Paul Getty Trust, which also oversees Getty Research Institute, Getty Conservation Institute, and Getty Foundation</div></div>
+            <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Foundation/trust leadership</span><span class="tm-chip-bd">Foundation/trust board</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="tm-key-diff"><div class="tm-kdl">Why It Matters</div><div class="tm-kdv"><ul><li><strong>Both structures use external boards with similar trustee profiles.</strong> The difference is whether the board governs one museum directly or a larger foundation/trust above the museum.</li><li>Usually a private nonprofit opportunity &#8212; RFPs are typically internal unless public funding or hybrid governance triggers public-procurement requirements.</li></ul></div></div>
+    </div>`,
+  'Public / Government':`
+    <div class="tm-hdr" style="border-left:4px solid var(--b600)">
+      <div class="tm-top"><div class="tm-title">Public / Government</div></div>
+      <div class="tm-summary">
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">Museum owned or controlled by a federal, state, county, city, or public agency.</div></div>
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Governance</div><div class="tm-sum-val">Museum leadership runs operations. A public entity, board, regents, commission, or agency oversees budgets, procurement, strategy, and leadership appointments.</div></div>
+      </div>
+    </div>
+    <div class="tm-body">
+      <div class="tm-cards">
+        <div class="tm-card">
+          <div class="tm-card-hdr">Standalone Government Museum</div>
+          <div class="tm-fields">
+            <div class="tm-field"><div class="tm-fl">Top-level entity</div><div class="tm-fv">One government body or agency</div></div>
+            <div class="tm-field"><div class="tm-fl">Oversight</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Government department</span><span class="tm-chip">Public agency</span><span class="tm-chip">Appointed officials</span></div></div></div>
+            <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">National Museum of the U.S. Air Force &#8212; official museum of the U.S. Air Force</div></div>
+            <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Govt. procurement &amp; agency approval</span></div></div></div>
+          </div>
+        </div>
+        <div class="tm-card">
+          <div class="tm-card-hdr">Government Museum Network</div>
+          <div class="tm-fields">
+            <div class="tm-field"><div class="tm-fl">Top-level entity</div><div class="tm-fv">One public institution overseeing multiple museums</div></div>
+            <div class="tm-field"><div class="tm-fl">Oversight</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Central board / regents</span><span class="tm-chip">Commission</span><span class="tm-chip">Parent agency</span></div></div></div>
+            <div class="tm-field"><div class="tm-fl">Typical public oversight members</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Public officials</span><span class="tm-chip">Govt. appointees</span><span class="tm-chip">Agency leaders</span><span class="tm-chip">Members of Congress</span><span class="tm-chip">Regents / commissioners</span><span class="tm-chip">Citizen members</span></div></div></div>
+            <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">Smithsonian Institution &#8594; multiple museums, research centers &amp; the National Zoo. Board of Regents: senior public officials, members of Congress, and citizen members</div></div>
+            <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Central procurement</span><span class="tm-chip-bd">Legal / tech / governance teams</span></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="tm-key-diff"><div class="tm-kdl">Why It Matters</div><div class="tm-kdv"><ul><li><strong>Public museums are usually public-sector opportunities.</strong></li><li>Expect public procurement rules, government approvals, and formal public RFP processes.</li></ul></div></div>
+    </div>`,
+  'Public-Private Hybrid':`
+    <div class="tm-hdr" style="border-left:4px solid var(--a600)">
+      <div class="tm-top"><div class="tm-title">Public-Private Hybrid</div></div>
+      <div class="tm-summary">
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">A museum where a government body has formal public involvement while a nonprofit organization manages day-to-day operations.</div></div>
+        <div class="tm-sum-item" style="align-items:flex-start"><div class="tm-sum-lbl" style="padding-top:1px;color:var(--tx3)">Public involvement can include</div><div class="tm-sum-val" style="font-size:10.5px;color:var(--tx3)">Building/land ownership · collections · public funding · board appointments · approval rights over major contracts and capital projects</div></div>
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Governance</div><div class="tm-sum-val">Museum leadership runs operations. Oversight is shared between a nonprofit board and a public body (city, county, state agency, or commission).</div></div>
+      </div>
+    </div>
+    <div class="tm-body">
+      <div class="tm-fact">
+        <div class="tm-field"><div class="tm-fl">Public involvement</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Building / land</span><span class="tm-chip">Collections</span><span class="tm-chip">Funding</span><span class="tm-chip">Board appointments</span><span class="tm-chip">Approval rights</span></div></div></div>
+        <div class="tm-field"><div class="tm-fl">Nonprofit role</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Operations</span><span class="tm-chip">Fundraising</span><span class="tm-chip">Programming</span><span class="tm-chip">Staffing</span><span class="tm-chip">Visitor experience</span></div></div></div>
+        <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">LACMA &#8212; Los Angeles County owns the museum campus and collections, while Museum Associates, a nonprofit, operates and manages the museum</div></div>
+        <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Public-side stakeholders for major decisions</span></div></div></div>
+      </div>
+      <div class="tm-key-diff"><div class="tm-kdl">Why It Matters</div><div class="tm-kdv"><ul><li><strong>Hybrid museums can look like private nonprofits, but major decisions may still require public approval or follow public procurement rules.</strong></li><li>Opportunity path may be mixed: some deals behave like private nonprofit sales, while larger contracts may trigger public-side approvals or formal RFP requirements.</li></ul></div></div>
+    </div>`,
+  'Commercial / For-Profit':`
+    <div class="tm-hdr" style="border-left:4px solid var(--r600)">
+      <div class="tm-top"><div class="tm-title">Commercial / For-Profit</div></div>
+      <div class="tm-summary">
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">Museum-like or cultural attraction operated as a commercial business.</div></div>
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Governance</div><div class="tm-sum-val">Company leadership runs operations. Major decisions sit with executives, owners, investors, or a corporate board.</div></div>
+      </div>
+    </div>
+    <div class="tm-body">
+      <div class="tm-fact">
+        <div class="tm-field"><div class="tm-fl">Operator controls</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Venue</span><span class="tm-chip">Brand</span><span class="tm-chip">Ticketing</span><span class="tm-chip">Staffing</span><span class="tm-chip">Programming</span><span class="tm-chip">Commercial strategy</span></div></div></div>
+        <div class="tm-field"><div class="tm-fl">Typical decision-makers</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">CEO / COO</span><span class="tm-chip">Venue GM</span><span class="tm-chip">Digital</span><span class="tm-chip">Ticketing</span><span class="tm-chip">Growth</span><span class="tm-chip">Partnerships</span></div></div></div>
+        <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">Meow Wolf &#8212; commercial immersive art company with multiple ticketed US locations</div></div>
+        <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Company leadership</span><span class="tm-chip-bd">Commercial teams</span><span class="tm-chip-bd">Digital teams</span></div></div></div>
+      </div>
+      <div class="tm-key-diff"><div class="tm-kdl">Why It Matters</div><div class="tm-kdv"><ul><li><strong>For-profit attractions usually behave like private commercial opportunities.</strong> Sales cycles may be faster and more ROI-driven.</li><li>Less public procurement exposure unless the attraction operates on public land or under a public concession &#8212; in which case, formal public RFP rules may apply.</li></ul></div></div>
+    </div>`
+};
 const TREE=mkTree();
 const openL2=new Set(),openL3=new Set();
 function togL2(o){openL2.has(o)?openL2.delete(o):openL2.add(o);rTree()}
 function togL3(k){openL3.has(k)?openL3.delete(k):openL3.add(k);rTree()}
+function closeAllPanels(){document.querySelectorAll('.tt-panel').forEach(p=>p.classList.remove('visible'));}
+function initTooltips(){
+  document.querySelectorAll('.tt-panel').forEach(panel=>{
+    if(!panel.querySelector('.tt-close')){
+      const x=document.createElement('button');
+      x.className='tt-close';x.innerHTML='&times;';
+      x.addEventListener('click',e=>{e.stopPropagation();panel.classList.remove('visible');});
+      panel.prepend(x);
+    }
+  });
+  document.querySelectorAll('.l2-info').forEach(btn=>{
+    const wrap=btn.closest('.l2-card-wrap');
+    const panel=wrap?wrap.querySelector('.tt-panel'):null;
+    if(!panel)return;
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      const wasVisible=panel.classList.contains('visible');
+      closeAllPanels();
+      if(!wasVisible)panel.classList.add('visible');
+    });
+  });
+  if(!document._ttOutsideClick){
+    document._ttOutsideClick=true;
+    document.addEventListener('click',e=>{
+      if(!e.target.closest('.tt-panel'))closeAllPanels();
+    });
+  }
+}
 
 function rTree(){
   const agv=F.tgtv(D);
+  const totalVis=D.filter(m=>m.visitors&&m.visitors>0).reduce((s,m)=>s+m.visitors,0);
+  const totalGTV=D.reduce((s,m)=>s+(m.gtv||0),0);
   let h=`<div style="display:flex;justify-content:center;margin-bottom:0">
     <div class="ncol"><div class="n-root">
       <div class="n-root-title">Museum Opportunity Map</div>
@@ -360,12 +554,21 @@ function rTree(){
     const isOn=openL2.has(node.o);
     const cls=F.l2c(node.o);
     const gv=F.tgtv(node.ms);
+    const nodeVis=node.ms.filter(m=>m.visitors&&m.visitors>0).reduce((s,m)=>s+m.visitors,0);
+    const nodeGTV=node.ms.reduce((s,m)=>s+(m.gtv||0),0);
+    const visPct=totalVis>0&&nodeVis>0?Math.round(nodeVis/totalVis*100)+'%':'n/a';
+    const gtvPct=totalGTV>0?Math.round(nodeGTV/totalGTV*100)+'%':'0%';
     h+=`<div class="ncol">`;
+    h+=`<div class="n-l2-bubble ${cls}"><div class="n-l2-bubble-inner"><span class="n-l2-bubble-lbl">Share of listed museums</span><span>${visPct} visitors &middot; ${gtvPct} GTV</span></div></div>`;
+    h+=`<div class="l2-card-wrap">`;
+    h+=`<div class="l2-info ${cls}" onclick="event.stopPropagation()">i</div>`;
     h+=`<div class="n-l2 ${cls}${isOn?' on':''}" onclick="togL2('${e(node.o)}')">
       <div class="n-l2-name">${node.o}</div>
       <div class="n-l2-meta">${node.ms.length} museums${gv?' · '+gv:''}</div>
       <span class="caret">${isOn?'▲':'▼'}</span>
     </div>`;
+    h+=`<div class="tt-panel">${TIPS[node.o]||''}</div>`;
+    h+=`</div>`;
     if(isOn){
       const standalones=node.ms.filter(m=>!m.controlling_entity);
       const items=[
@@ -420,6 +623,7 @@ function rTree(){
   });
   h+=`</div>`;
   document.getElementById('tree-root').innerHTML=h;
+  initTooltips();
 }
 
 /* ══ CARDS ══ */
