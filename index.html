@@ -78,27 +78,27 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,A
 .tm-top{display:flex;align-items:center;gap:10px;margin-bottom:9px;padding-right:28px}
 .tm-hdr{padding:14px 20px 13px;border-bottom:1px solid var(--bd);background:var(--sf3)}
 
-.tm-title{font-size:14px;font-weight:700;color:var(--tx)}
-.tm-tag{font-size:10px;color:var(--tx3);padding:2px 9px;background:var(--bg);border:1px solid var(--bd);border-radius:20px;white-space:nowrap}
+.tm-title{font-size:15px;font-weight:700;color:var(--tx)}
+.tm-tag{font-size:11px;color:var(--tx3);padding:2px 9px;background:var(--bg);border:1px solid var(--bd);border-radius:20px;white-space:nowrap}
 .tm-summary{display:flex;flex-direction:column;gap:7px}
 .tm-sum-item{display:flex;gap:12px;align-items:baseline}
-.tm-sum-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);flex:0 0 80px;flex-shrink:0}
-.tm-sum-val{font-size:11px;color:var(--tx2);line-height:1.45;flex:1}
+.tm-sum-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);flex:0 0 80px;flex-shrink:0}
+.tm-sum-val{font-size:12px;color:var(--tx2);line-height:1.5;flex:1}
 .tm-body{padding:14px 20px 16px}
 .tm-cards{display:flex;gap:12px;margin-bottom:11px}
 .tm-card{flex:1;background:var(--bg);border:1px solid var(--bd);border-radius:8px;overflow:hidden;min-width:0}
-.tm-card-hdr{padding:7px 12px;background:var(--sf3);border-bottom:1px solid var(--bd);font-size:11px;font-weight:600;color:var(--tx)}
+.tm-card-hdr{padding:7px 12px;background:var(--sf3);border-bottom:1px solid var(--bd);font-size:12px;font-weight:600;color:var(--tx)}
 .tm-fields{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
 .tm-field{display:flex;align-items:flex-start;gap:10px}
-.tm-fl{flex:0 0 100px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--tx3);padding-top:3px;line-height:1.3;flex-shrink:0}
-.tm-fv{flex:1;font-size:11px;color:var(--tx2);line-height:1.4;min-width:0}
-.tm-fvi{flex:1;font-size:10.5px;color:var(--tx3);line-height:1.4;font-style:italic;min-width:0}
+.tm-fl{flex:0 0 100px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--tx3);padding-top:3px;line-height:1.3;flex-shrink:0}
+.tm-fv{flex:1;font-size:12px;color:var(--tx2);line-height:1.5;min-width:0}
+.tm-fvi{flex:1;font-size:11.5px;color:var(--tx3);line-height:1.5;font-style:italic;min-width:0}
 .tm-chips{display:flex;flex-wrap:wrap;gap:4px}
-.tm-chip{font-size:10px;color:var(--tx2);background:var(--sf3);border:1px solid var(--bd);border-radius:20px;padding:1px 8px;white-space:nowrap}
-.tm-chip-bd{font-size:10px;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(232,0,61,.25);border-radius:20px;padding:1px 8px;white-space:nowrap}
+.tm-chip{font-size:11px;color:var(--tx2);background:var(--sf3);border:1px solid var(--bd);border-radius:20px;padding:2px 9px;white-space:nowrap}
+.tm-chip-bd{font-size:11px;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(232,0,61,.25);border-radius:20px;padding:2px 9px;white-space:nowrap}
 .tm-key-diff{display:flex;align-items:flex-start;gap:10px;background:var(--sf3);border:1px solid var(--bd);border-radius:6px;padding:8px 12px}
-.tm-kdl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);white-space:nowrap;flex-shrink:0}
-.tm-kdv{font-size:11px;color:var(--tx2);line-height:1.45}
+.tm-kdl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);white-space:nowrap;flex-shrink:0}
+.tm-kdv{font-size:12px;color:var(--tx2);line-height:1.5}
 .tm-split{display:flex;background:var(--bg);border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:11px}
 .tm-split-side{flex:1;min-width:0}
 .tm-split-hdr{padding:7px 12px;background:var(--sf3);border-bottom:1px solid var(--bd);font-size:11px;font-weight:600;color:var(--tx)}
@@ -405,104 +405,137 @@ const TIPS={
     <div class="tm-hdr" style="border-left:4px solid var(--g600)">
       <div class="tm-top"><div class="tm-title">Private Nonprofit</div></div>
       <div class="tm-summary">
-        <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">Non-governmental museum organized around a charitable, educational, scientific, or cultural mission. Revenue surplus must be reinvested into the institution.</div></div>
-        <div class="tm-sum-item"><div class="tm-sum-lbl">Governance</div><div class="tm-sum-val">Museum leadership runs day-to-day operations. The Board of Trustees/Directors sits above leadership and is made up of external trustees.</div></div>
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">Museum organized around a charitable, educational, scientific, or cultural mission. Revenue surpluses must be reinvested into the institution.</div></div>
       </div>
     </div>
     <div class="tm-body">
-      <div class="tm-cards">
-        <div class="tm-card">
-          <div class="tm-card-hdr">Independent Nonprofit Museum</div>
-          <div class="tm-fields">
-            <div class="tm-field"><div class="tm-fl">Top-level entity</div><div class="tm-fv">Museum itself</div></div>
-            <div class="tm-field"><div class="tm-fl">Board</div><div class="tm-fv">Governs the museum directly</div></div>
-            <div class="tm-field"><div class="tm-fl">Board size</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">~20&#8211;50 trustees</span></div></div></div>
-            <div class="tm-field"><div class="tm-fl">Typical external board members</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Major donors</span><span class="tm-chip">Philanthropists</span><span class="tm-chip">Business leaders</span><span class="tm-chip">Finance / legal</span><span class="tm-chip">Collectors</span><span class="tm-chip">Civic leaders</span></div></div></div>
-            <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">Museum of Fine Arts Boston &#8212; governed by a Board of Trustees of roughly 30 trustees</div></div>
-            <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Museum board</span></div></div></div>
-          </div>
+      <div class="tm-fact">
+        <div class="tm-field" style="align-items:flex-start;gap:12px">
+          <span style="flex:0 0 150px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--g600);background:rgba(109,179,63,.12);border:1px solid rgba(109,179,63,.25);border-radius:4px;padding:2px 7px;margin-top:1px;text-align:center">Museum Leadership</span>
+          <span style="font-size:12px;color:var(--tx2);line-height:1.5">Day-to-day operations, partnerships &amp; commercial decisions. <span style="color:var(--tx)">Primary BD contact.</span></span>
         </div>
-        <div class="tm-card">
-          <div class="tm-card-hdr">Foundation / Trust-Controlled Museum</div>
-          <div class="tm-fields">
-            <div class="tm-field"><div class="tm-fl">Top-level entity</div><div class="tm-fv">Foundation or trust above the museum</div></div>
-            <div class="tm-field"><div class="tm-fl">Board</div><div class="tm-fv">Governs the foundation/trust rather than the museum directly</div></div>
-            <div class="tm-field"><div class="tm-fl">Board size</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">~10&#8211;25 trustees</span></div></div></div>
-            <div class="tm-field"><div class="tm-fl">Typical external board members</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Major donors</span><span class="tm-chip">Philanthropists</span><span class="tm-chip">Business leaders</span><span class="tm-chip">Finance / legal</span><span class="tm-chip">Collectors</span><span class="tm-chip">Civic leaders</span></div></div></div>
-            <div class="tm-field"><div class="tm-fl">Scope</div><div class="tm-fv">Foundation/trust often oversees multiple museums, institutes, collections, endowments, or programs</div></div>
-            <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">J. Paul Getty Museum &#8594; J. Paul Getty Trust, which also oversees Getty Research Institute, Getty Conservation Institute, and Getty Foundation</div></div>
-            <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Foundation/trust leadership</span><span class="tm-chip-bd">Foundation/trust board</span></div></div></div>
+        <div class="tm-field" style="align-items:flex-start;gap:12px;margin-top:8px">
+          <span style="flex:0 0 150px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--g600);background:rgba(109,179,63,.12);border:1px solid rgba(109,179,63,.25);border-radius:4px;padding:2px 7px;margin-top:1px;text-align:center">Board / Trustees</span>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <span style="font-size:12px;color:var(--tx2);line-height:1.5">Governance, oversight &amp; major decisions. Can include foundation or trust stakeholders.</span>
+            <span style="font-size:11px;font-style:italic;color:var(--tx3)">Typical members include</span>
+            <div class="tm-chips"><span class="tm-chip">Philanthropists</span><span class="tm-chip">Major donors</span><span class="tm-chip">Business leaders</span><span class="tm-chip">Collectors</span><span class="tm-chip">Civic leaders</span></div>
           </div>
         </div>
       </div>
-      <div class="tm-key-diff"><div class="tm-kdl">Why It Matters</div><div class="tm-kdv"><ul><li><strong>Both structures use external boards with similar trustee profiles.</strong> The difference is whether the board governs one museum directly or a larger foundation/trust above the museum.</li><li>Usually a private nonprofit opportunity &#8212; RFPs are typically internal unless public funding or hybrid governance triggers public-procurement requirements.</li></ul></div></div>
+      <div class="tm-fact">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);margin-bottom:8px">BD Angle</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--g600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:11px;color:var(--tx2)">Usually a <strong style="color:var(--tx)">private opportunity</strong> — no public procurement.</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--g600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:11px;color:var(--tx2)"><strong style="color:var(--tx)">Museum leadership</strong> is the <strong style="color:var(--tx)">primary entry point</strong> for partnerships.</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--g600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:11px;color:var(--tx2)"><strong style="color:var(--tx)">Board &amp; foundation</strong> relationships unlock <strong style="color:var(--tx)">multi-museum network access</strong>.</span></div>
+        </div>
+      </div>
+      <div class="tm-fact" style="margin-bottom:0">
+        <div class="tm-field"><div class="tm-fl">Typical contacts</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum Director</span><span class="tm-chip-bd">CEO</span><span class="tm-chip-bd">Executive Director</span><span class="tm-chip-bd">Commercial / Partnerships Lead</span><span class="tm-chip-bd">Board Chair</span><span class="tm-chip-bd">Trustees</span></div></div></div>
+      </div>
     </div>`,
   'Public / Government':`
     <div class="tm-hdr" style="border-left:4px solid var(--b600)">
       <div class="tm-top"><div class="tm-title">Public / Government</div></div>
       <div class="tm-summary">
         <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">Museum owned or controlled by a federal, state, county, city, or public agency.</div></div>
-        <div class="tm-sum-item"><div class="tm-sum-lbl">Governance</div><div class="tm-sum-val">Museum leadership runs operations. A public entity, board, regents, commission, or agency oversees budgets, procurement, strategy, and leadership appointments.</div></div>
       </div>
     </div>
     <div class="tm-body">
-      <div class="tm-cards">
-        <div class="tm-card">
-          <div class="tm-card-hdr">Standalone Government Museum</div>
-          <div class="tm-fields">
-            <div class="tm-field"><div class="tm-fl">Top-level entity</div><div class="tm-fv">One government body or agency</div></div>
-            <div class="tm-field"><div class="tm-fl">Oversight</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Government department</span><span class="tm-chip">Public agency</span><span class="tm-chip">Appointed officials</span></div></div></div>
-            <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">National Museum of the U.S. Air Force &#8212; official museum of the U.S. Air Force</div></div>
-            <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Govt. procurement &amp; agency approval</span></div></div></div>
-          </div>
+      <div class="tm-fact">
+        <div class="tm-field" style="align-items:flex-start;gap:12px">
+          <span style="flex:0 0 150px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--b600);background:rgba(91,159,232,.12);border:1px solid rgba(91,159,232,.25);border-radius:4px;padding:2px 7px;margin-top:1px;text-align:center">Museum Leadership</span>
+          <span style="font-size:12px;color:var(--tx2);line-height:1.5">Day-to-day operations, partnerships &amp; commercial needs. <span style="color:var(--tx)">Primary business contact.</span></span>
         </div>
-        <div class="tm-card">
-          <div class="tm-card-hdr">Government Museum Network</div>
-          <div class="tm-fields">
-            <div class="tm-field"><div class="tm-fl">Top-level entity</div><div class="tm-fv">One public institution overseeing multiple museums</div></div>
-            <div class="tm-field"><div class="tm-fl">Oversight</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Central board / regents</span><span class="tm-chip">Commission</span><span class="tm-chip">Parent agency</span></div></div></div>
-            <div class="tm-field"><div class="tm-fl">Typical public oversight members</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Public officials</span><span class="tm-chip">Govt. appointees</span><span class="tm-chip">Agency leaders</span><span class="tm-chip">Members of Congress</span><span class="tm-chip">Regents / commissioners</span><span class="tm-chip">Citizen members</span></div></div></div>
-            <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">Smithsonian Institution &#8594; multiple museums, research centers &amp; the National Zoo. Board of Regents: senior public officials, members of Congress, and citizen members</div></div>
-            <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Central procurement</span><span class="tm-chip-bd">Legal / tech / governance teams</span></div></div></div>
+        <div class="tm-field" style="align-items:flex-start;gap:12px;margin-top:8px">
+          <span style="flex:0 0 150px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--b600);background:rgba(91,159,232,.12);border:1px solid rgba(91,159,232,.25);border-radius:4px;padding:2px 7px;margin-top:1px;text-align:center">Public Body / Board</span>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <span style="font-size:12px;color:var(--tx2);line-height:1.5">Budget oversight, procurement, approvals, governance &amp; leadership appointments.</span>
+            <span style="font-size:11px;font-style:italic;color:var(--tx3)">Typical stakeholders include</span>
+            <div class="tm-chips"><span class="tm-chip">Government department</span><span class="tm-chip">Public agency</span><span class="tm-chip">Board / regents</span><span class="tm-chip">Commission</span><span class="tm-chip">Agency leaders</span><span class="tm-chip">Public officials</span></div>
           </div>
         </div>
       </div>
-      <div class="tm-key-diff"><div class="tm-kdl">Why It Matters</div><div class="tm-kdv"><ul><li><strong>Public museums are usually public-sector opportunities.</strong></li><li>Expect public procurement rules, government approvals, and formal public RFP processes.</li></ul></div></div>
+      <div class="tm-fact">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);margin-bottom:8px">BD Angle</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--b600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:12px;color:var(--tx2)">Usually <strong style="color:var(--tx)">public-sector opportunities</strong>.</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--b600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:12px;color:var(--tx2)">Expect <strong style="color:var(--tx)">procurement rules</strong>, formal approvals &amp; potential <strong style="color:var(--tx)">RFP processes</strong>.</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--b600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:12px;color:var(--tx2)"><strong style="color:var(--tx)">Procurement, agency, board or commission</strong> relationships can support approvals and multi-museum access.</span></div>
+        </div>
+      </div>
+      <div class="tm-fact" style="margin-bottom:0">
+        <div class="tm-field"><div class="tm-fl">Typical contacts</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum Director</span><span class="tm-chip-bd">CEO</span><span class="tm-chip-bd">Executive Director</span><span class="tm-chip-bd">Commercial / Partnerships Lead</span><span class="tm-chip-bd">Public Agency Lead</span><span class="tm-chip-bd">Procurement Lead</span><span class="tm-chip-bd">Board / Regents / Commission</span></div></div></div>
+      </div>
     </div>`,
   'Public-Private Hybrid':`
     <div class="tm-hdr" style="border-left:4px solid var(--a600)">
       <div class="tm-top"><div class="tm-title">Public-Private Hybrid</div></div>
       <div class="tm-summary">
-        <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">A museum where a government body has formal public involvement while a nonprofit organization manages day-to-day operations.</div></div>
-        <div class="tm-sum-item" style="align-items:flex-start"><div class="tm-sum-lbl" style="padding-top:1px;color:var(--tx3)">Public involvement can include</div><div class="tm-sum-val" style="font-size:10.5px;color:var(--tx3)">Building/land ownership · collections · public funding · board appointments · approval rights over major contracts and capital projects</div></div>
-        <div class="tm-sum-item"><div class="tm-sum-lbl">Governance</div><div class="tm-sum-val">Museum leadership runs operations. Oversight is shared between a nonprofit board and a public body (city, county, state agency, or commission).</div></div>
+        <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">Museum where a public body has formal involvement, while a nonprofit or museum entity manages day-to-day operations.</div></div>
       </div>
     </div>
     <div class="tm-body">
       <div class="tm-fact">
-        <div class="tm-field"><div class="tm-fl">Public involvement</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Building / land</span><span class="tm-chip">Collections</span><span class="tm-chip">Funding</span><span class="tm-chip">Board appointments</span><span class="tm-chip">Approval rights</span></div></div></div>
-        <div class="tm-field"><div class="tm-fl">Nonprofit role</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Operations</span><span class="tm-chip">Fundraising</span><span class="tm-chip">Programming</span><span class="tm-chip">Staffing</span><span class="tm-chip">Visitor experience</span></div></div></div>
-        <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">LACMA &#8212; Los Angeles County owns the museum campus and collections, while Museum Associates, a nonprofit, operates and manages the museum</div></div>
-        <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum leadership</span><span class="tm-chip-bd">Public-side stakeholders for major decisions</span></div></div></div>
+        <div class="tm-field" style="align-items:flex-start;gap:12px">
+          <span style="flex:0 0 150px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--a600);background:rgba(201,125,26,.12);border:1px solid rgba(201,125,26,.25);border-radius:4px;padding:2px 7px;margin-top:1px;text-align:center">Museum / Nonprofit Leadership</span>
+          <span style="font-size:12px;color:var(--tx2);line-height:1.5">Day-to-day operations, partnerships, programming &amp; visitor experience. <span style="color:var(--tx)">Primary BD contact.</span></span>
+        </div>
+        <div class="tm-field" style="align-items:flex-start;gap:12px;margin-top:8px">
+          <span style="flex:0 0 150px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--a600);background:rgba(201,125,26,.12);border:1px solid rgba(201,125,26,.25);border-radius:4px;padding:2px 7px;margin-top:1px;text-align:center">Public Body / Board</span>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <span style="font-size:12px;color:var(--tx2);line-height:1.5">Funding, governance, approvals, major contracts &amp; capital projects.</span>
+            <span style="font-size:11px;font-style:italic;color:var(--tx3)">Public involvement can include</span>
+            <div class="tm-chips"><span class="tm-chip">Building / land</span><span class="tm-chip">Collections</span><span class="tm-chip">Funding</span><span class="tm-chip">Board appointments</span><span class="tm-chip">Approval rights</span></div>
+          </div>
+        </div>
       </div>
-      <div class="tm-key-diff"><div class="tm-kdl">Why It Matters</div><div class="tm-kdv"><ul><li><strong>Hybrid museums can look like private nonprofits, but major decisions may still require public approval or follow public procurement rules.</strong></li><li>Opportunity path may be mixed: some deals behave like private nonprofit sales, while larger contracts may trigger public-side approvals or formal RFP requirements.</li></ul></div></div>
+      <div class="tm-fact">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);margin-bottom:8px">BD Angle</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--a600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:12px;color:var(--tx2)"><strong style="color:var(--tx)">Mixed opportunity path</strong>: often private-style sales, but larger deals may require public approval.</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--a600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:12px;color:var(--tx2)"><strong style="color:var(--tx)">Museum or nonprofit leadership</strong> is typically the primary contact for partnerships.</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--a600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:12px;color:var(--tx2)"><strong style="color:var(--tx)">Public body, board or commission</strong> relationships can support approvals and access across connected museums.</span></div>
+        </div>
+      </div>
+      <div class="tm-fact" style="margin-bottom:0">
+        <div class="tm-field"><div class="tm-fl">Typical contacts</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Museum Director</span><span class="tm-chip-bd">CEO</span><span class="tm-chip-bd">Executive Director</span><span class="tm-chip-bd">Commercial / Partnerships Lead</span><span class="tm-chip-bd">Nonprofit Board</span><span class="tm-chip-bd">Public Agency Lead</span><span class="tm-chip-bd">Commission / City / County Stakeholders</span></div></div></div>
+      </div>
     </div>`,
   'Commercial / For-Profit':`
     <div class="tm-hdr" style="border-left:4px solid var(--r600)">
       <div class="tm-top"><div class="tm-title">Commercial / For-Profit</div></div>
       <div class="tm-summary">
         <div class="tm-sum-item"><div class="tm-sum-lbl">Definition</div><div class="tm-sum-val">Museum-like or cultural attraction operated as a commercial business.</div></div>
-        <div class="tm-sum-item"><div class="tm-sum-lbl">Governance</div><div class="tm-sum-val">Company leadership runs operations. Major decisions sit with executives, owners, investors, or a corporate board.</div></div>
       </div>
     </div>
     <div class="tm-body">
       <div class="tm-fact">
-        <div class="tm-field"><div class="tm-fl">Operator controls</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">Venue</span><span class="tm-chip">Brand</span><span class="tm-chip">Ticketing</span><span class="tm-chip">Staffing</span><span class="tm-chip">Programming</span><span class="tm-chip">Commercial strategy</span></div></div></div>
-        <div class="tm-field"><div class="tm-fl">Typical decision-makers</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip">CEO / COO</span><span class="tm-chip">Venue GM</span><span class="tm-chip">Digital</span><span class="tm-chip">Ticketing</span><span class="tm-chip">Growth</span><span class="tm-chip">Partnerships</span></div></div></div>
-        <div class="tm-field"><div class="tm-fl">Example</div><div class="tm-fvi">Meow Wolf &#8212; commercial immersive art company with multiple ticketed US locations</div></div>
-        <div class="tm-field"><div class="tm-fl">BD target</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">Company leadership</span><span class="tm-chip-bd">Commercial teams</span><span class="tm-chip-bd">Digital teams</span></div></div></div>
+        <div class="tm-field" style="align-items:flex-start;gap:12px">
+          <span style="flex:0 0 150px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--r600);background:rgba(232,120,120,.12);border:1px solid rgba(232,120,120,.25);border-radius:4px;padding:2px 7px;margin-top:1px;text-align:center">Company Leadership</span>
+          <span style="font-size:12px;color:var(--tx2);line-height:1.5">Operations, ticketing, programming, partnerships &amp; commercial strategy. <span style="color:var(--tx)">Primary BD contact.</span></span>
+        </div>
+        <div class="tm-field" style="align-items:flex-start;gap:12px;margin-top:8px">
+          <span style="flex:0 0 150px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:var(--r600);background:rgba(232,120,120,.12);border:1px solid rgba(232,120,120,.25);border-radius:4px;padding:2px 7px;margin-top:1px;text-align:center">Owners / Investors / Board</span>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <span style="font-size:12px;color:var(--tx2);line-height:1.5">Major budgets, growth, investment &amp; strategic decisions.</span>
+            <span style="font-size:11px;font-style:italic;color:var(--tx3)">Typical decision-makers include</span>
+            <div class="tm-chips"><span class="tm-chip">CEO / COO</span><span class="tm-chip">Venue GM</span><span class="tm-chip">Commercial</span><span class="tm-chip">Ticketing</span><span class="tm-chip">Digital</span><span class="tm-chip">Growth</span><span class="tm-chip">Operations</span></div>
+          </div>
+        </div>
       </div>
-      <div class="tm-key-diff"><div class="tm-kdl">Why It Matters</div><div class="tm-kdv"><ul><li><strong>For-profit attractions usually behave like private commercial opportunities.</strong> Sales cycles may be faster and more ROI-driven.</li><li>Less public procurement exposure unless the attraction operates on public land or under a public concession &#8212; in which case, formal public RFP rules may apply.</li></ul></div></div>
+      <div class="tm-fact">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--tx3);margin-bottom:8px">BD Angle</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--r600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:12px;color:var(--tx2)">Usually <strong style="color:var(--tx)">private commercial opportunities</strong>.</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--r600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:12px;color:var(--tx2)"><strong style="color:var(--tx)">Company leadership, commercial, ticketing &amp; digital teams</strong> are primary entry points.</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px"><span style="width:5px;height:5px;border-radius:50%;background:var(--r600);flex-shrink:0;margin-top:4px;display:inline-block"></span><span style="font-size:12px;color:var(--tx2)">Sales cycles may be faster and more <strong style="color:var(--tx)">ROI-driven</strong>; public procurement is less likely unless public land or concessions are involved.</span></div>
+        </div>
+      </div>
+      <div class="tm-fact" style="margin-bottom:0">
+        <div class="tm-field"><div class="tm-fl">Typical contacts</div><div class="tm-fv"><div class="tm-chips"><span class="tm-chip-bd">CEO</span><span class="tm-chip-bd">COO</span><span class="tm-chip-bd">Venue GM</span><span class="tm-chip-bd">Commercial / Partnerships Lead</span><span class="tm-chip-bd">Ticketing Lead</span><span class="tm-chip-bd">Digital Lead</span><span class="tm-chip-bd">Growth Lead</span><span class="tm-chip-bd">Operations Lead</span></div></div></div>
+      </div>
     </div>`
 };
 const TREE=mkTree();
